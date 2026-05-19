@@ -76,6 +76,7 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
       [data-animate] { opacity: 1 !important; transform: none !important; }
+      html { scroll-behavior: auto; }
     }
 
     /* ─── Container ─────────────────────────────── */
@@ -190,6 +191,13 @@
     }
     .btn-outline { background: transparent; color: var(--text); border-color: rgba(255,255,255,0.2); }
     .btn-outline:hover { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.05); }
+
+    /* ─── Focus styles ──────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
 
     /* ─── 1. NAV ────────────────────────────────── */
     .nav {
@@ -378,7 +386,7 @@
     }
     .hero__support {
       font-size: 14px;
-      color: rgba(247,243,232,0.40);
+      color: rgba(247,243,232,0.62);
       margin-bottom: 38px;
       opacity: 0;
       animation: fadeUp 0.8s ease 0.40s forwards;
@@ -413,7 +421,7 @@
     .hero__cta-meta {
       margin-top: 14px;
       font-size: 13px;
-      color: var(--muted);
+      color: rgba(247,243,232,0.55);
       line-height: 1.5;
     }
 
@@ -542,7 +550,8 @@
       overflow: hidden;
       background: var(--border);
     }
-    @media (min-width: 768px) { .choose-grid { grid-template-columns: repeat(2,1fr); gap: 1px; } }
+    @media (min-width: 768px)  { .choose-grid { grid-template-columns: repeat(2,1fr); gap: 1px; } }
+    @media (min-width: 1024px) { .choose-grid { grid-template-columns: repeat(3,1fr); } }
 
     .choose-card {
       background: rgba(26,26,24,0.76);
@@ -702,9 +711,6 @@
       display: flex;
       justify-content: flex-end;
     }
-    .g-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
-    .g-price { font-size: 15px; font-weight: 700; color: var(--gold); margin-bottom: 16px; letter-spacing: 0.01em; }
-    .g-price span { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
     .g-card .btn {
       width: auto;
       justify-content: center;
@@ -771,10 +777,10 @@
       line-height: 1.6;
     }
     .g-cta-note {
-      margin-top: 16px !important;
-      margin-bottom: 0 !important;
-      font-size: 13px !important;
-      color: var(--muted) !important;
+      margin-top: 16px;
+      margin-bottom: 0;
+      font-size: 13px;
+      color: var(--muted);
     }
 
     /* ── Gallery "view all" button ── */
@@ -917,7 +923,7 @@
       width: 100%;
       padding: 10px 12px;
       font-size: 13px;
-      border-radius: 0;
+      border-radius: 0 0 var(--rmd) var(--rmd);
       background: rgba(7,7,6,0.82);
       border-color: rgba(244,238,221,0.08);
       color: rgba(247,243,232,0.86);
@@ -979,7 +985,6 @@
       transform: translateX(-50%);
       z-index: 10;
       pointer-events: none;
-      will-change: left;
     }
     /* Drag button */
     .compare__btn {
@@ -1147,7 +1152,6 @@
     .process-close__u { font-size: 15px; color: var(--sub); margin-bottom: 6px; }
     .process-close__u strong { color: var(--text); font-weight: 700; }
     .process-close__note { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
-    .process-close__h { font-size: clamp(24px,3vw,34px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 28px; }
 
     /* ─── 9. FOOTER ─────────────────────────────── */
     .footer {
@@ -1372,7 +1376,6 @@
       transition: max-height 0.42s ease;
       background: rgba(35,35,31,0.72);
     }
-    .faq-a-wrap.open { max-height: 380px; }
     .faq-a p { font-size: 15px; color: var(--sub); line-height: 1.75; padding: 4px 26px 24px; }
 
     /* ─── 10. REVIEWS ──────────────────────────── */
@@ -1413,7 +1416,7 @@
     }
     .rev-slide-top {
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: minmax(180px, 240px) 1fr;
       overflow: hidden;
       border-radius: var(--rxl) var(--rxl) 0 0;
     }
@@ -1718,7 +1721,7 @@
       </div>
 
       <div class="hero__cta">
-        <a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0"
+        <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
            target="_blank" rel="noopener noreferrer" class="btn btn-gold">
           <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
           Get a Free Quote on WhatsApp
@@ -1749,7 +1752,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     7. GALLERY — horizontal swipeable slider
+     4. GALLERY — horizontal swipeable slider
 ══════════════════════════════════════════ -->
 <section class="section section--dark" id="gallery" aria-labelledby="gallery-title">
   <div class="wrap">
@@ -1767,198 +1770,198 @@
       <div class="g-track" id="g-track" role="list">
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/1.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/1.webp" alt="Just Graphics branded box — decal design sample 1" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/2.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/2.webp" alt="Bold racing stripe kit — decal design sample 2" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/3.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/3.webp" alt="Custom motorsport livery — decal design sample 3" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/4.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/4.webp" alt="Side graphics package — decal design sample 4" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/5.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/5.webp" alt="Two-tone hood and roof wrap — decal design sample 5" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/6.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/6.webp" alt="Track-inspired number and logo kit — decal design sample 6" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/7.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/7.webp" alt="Minimalist centre stripe — decal design sample 7" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/8.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/8.webp" alt="Carbon texture door insert decal — design sample 8" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/9.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/9.webp" alt="Desert off-road graphics package — design sample 9" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/10.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/10.webp" alt="Sport side stripe with accent colour — design sample 10" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/11.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/11.webp" alt="Full rear panel graphic — design sample 11" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/12.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/12.webp" alt="JDM-style angular livery — design sample 12" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/13.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/13.webp" alt="Aggressive wide-body accent kit — design sample 13" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/14.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/14.webp" alt="Single door logo and name decal — design sample 14" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/15.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/15.webp" alt="OEM-inspired factory stripe — design sample 15" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/16.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/16.webp" alt="Matte black contrast hood decal — design sample 16" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/17.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/17.webp" alt="Full-length side graphic in dual colour — design sample 17" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/18.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/18.webp" alt="Sport lower body rocker decal — design sample 18" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/19.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/19.webp" alt="Custom race number graphic — design sample 19" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/20.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/20.webp" alt="Geometric sharp-line livery — design sample 20" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/21.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/21.webp" alt="Tribal pattern full side wrap — design sample 21" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/22.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/22.webp" alt="Retro-style pinstripe kit — design sample 22" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/23.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/23.webp" alt="Supercar-style gold accent stripe — design sample 23" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/24.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/24.webp" alt="Military camo accent decal — design sample 24" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/25.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/25.webp" alt="Clean white stripe on dark bodywork — design sample 25" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/26.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/26.webp" alt="Full front bumper graphic — design sample 26" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/27.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/27.webp" alt="Contour-following side swoosh — design sample 27" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/28.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/28.webp" alt="Drift-inspired colourblock livery — design sample 28" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/29.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/29.webp" alt="Subtle door edge accent line — design sample 29" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/30.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/30.webp" alt="Premium brushed chrome effect decal — design sample 30" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/31.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/31.webp" alt="Rally mud-flap and skirt graphics — design sample 31" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/32.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/32.webp" alt="Bright neon accent stripe — design sample 32" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/33.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/33.webp" alt="Wide racing banner side graphic — design sample 33" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/34.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/34.webp" alt="Abstract art full-body wrap concept — design sample 34" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/35.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/35.webp" alt="Staggered multi-stripe hood package — design sample 35" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/36.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/36.webp" alt="Contrasting A-pillar and mirror caps decal — design sample 36" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/37.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/37.webp" alt="Coloured brake caliper effect decal — design sample 37" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/38.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/38.webp" alt="Low-profile lower side accent graphic — design sample 38" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/39.webp" alt="Car decal by Just Graphics" loading="lazy" decoding="async"></div>
-          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
+          <div class="g-photo"><img src="gallery/39.webp" alt="Full motorsport identity kit with numbers and logos — design sample 39" loading="lazy" decoding="async"></div>
+          <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
       </div><!-- /g-track -->
@@ -1986,7 +1989,7 @@
     <!-- CTA block -->
     <div class="g-cta" data-animate>
       <p>Seen something you like? We'll adapt it to your exact car and send a quote within a few hours.</p>
-      <a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0"
+      <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
          target="_blank" rel="noopener noreferrer" class="btn btn-gold">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
         I want this for my car
@@ -1998,7 +2001,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     7.5. REVIEWS
+     5. REVIEWS
 ══════════════════════════════════════════ -->
 <section class="section section--surface" id="reviews" aria-labelledby="reviews-title">
   <div class="wrap">
@@ -2007,7 +2010,7 @@
       <h2 class="s-title" id="reviews-title" data-animate data-animate-delay="1">Cars that became <em>iconic</em></h2>
       <p class="s-sub" data-animate data-animate-delay="2">Real stories from real people — and real cars.</p>
       <div class="rev-trust-row" data-animate data-animate-delay="3">
-        <span class="rev-trust-badge">★ 4.9 · 500+ clients in Dubai</span>
+        <span class="rev-trust-badge">★ 4.9 · 300+ cars done in Dubai</span>
       </div>
     </div>
 
@@ -2209,7 +2212,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     6.5. MID-PAGE CTA
+     6. MID-PAGE CTA
 ══════════════════════════════════════════ -->
 <div class="midcta" aria-label="Call to action">
   <div class="wrap">
@@ -2217,7 +2220,7 @@
       <p class="midcta__eyebrow">Ready to start?</p>
       <p class="midcta__text">Like what you see?<br>Get a quote — free, no obligation.</p>
       <p class="midcta__sub">We respond within 2 hours and send a design concept the same day.</p>
-      <a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0"
+      <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
          target="_blank" rel="noopener noreferrer" class="btn btn-gold">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
         Get a Free Quote
@@ -2228,7 +2231,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     CASES — with before/after sliders (moved up for ad traffic)
+     7. CASES — before/after sliders
 ══════════════════════════════════════════ -->
 <section class="section section--surface" id="cases" aria-labelledby="cases-title">
   <div class="wrap">
@@ -2354,7 +2357,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     4. WHY DETAILS MATTER
+     8. WHY DETAILS MATTER
 ══════════════════════════════════════════ -->
 <section class="section section--surface" id="details" aria-labelledby="details-title">
   <div class="wrap">
@@ -2386,7 +2389,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     5. WHY CHOOSE US
+     9. WHY CHOOSE US
 ══════════════════════════════════════════ -->
 <section class="section section--dark" id="why-us" aria-labelledby="why-us-title">
   <div class="wrap">
@@ -2424,7 +2427,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     7.5. FAQ
+     10. FAQ
 ══════════════════════════════════════════ -->
 <section class="section section--surface" id="faq" aria-labelledby="faq-title">
   <div class="wrap">
@@ -2525,7 +2528,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     8. PROCESS
+     11. PROCESS
 ══════════════════════════════════════════ -->
 <section class="section section--surface" id="process" aria-labelledby="process-title">
   <div class="wrap">
@@ -2568,7 +2571,7 @@
 
 
 <!-- ══════════════════════════════════════════
-     9. FOOTER
+     12. FOOTER
 ══════════════════════════════════════════ -->
 <footer class="footer" role="contentinfo">
   <div class="wrap">
@@ -2601,7 +2604,7 @@
           </li>
           <li>Mon–Sat &middot; 9:00–19:00</li>
           <li>
-            <a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0"
+            <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
                target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </li>
           <li>
@@ -2634,7 +2637,7 @@
     <div class="footer__cta">
       <p class="footer__cta-text">Ready to transform your car?</p>
       <p class="footer__cta-sub">Send us a message — we reply within 2 hours and send a quote the same day.</p>
-      <a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0"
+      <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
          target="_blank" rel="noopener noreferrer" class="btn btn-gold">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
         Message Us on WhatsApp
@@ -2642,7 +2645,7 @@
     </div>
 
     <div class="footer__bottom">
-      <span>&copy; 2025 Just Graphics. All rights reserved.</span>
+      <span>&copy; 2026 Just Graphics. All rights reserved.</span>
       <span>Al Quoz Industrial Area 3, Dubai, UAE</span>
     </div>
   </div>
@@ -2716,7 +2719,7 @@
     const grid        = document.getElementById('catalog-grid');
     const closeBtn    = document.getElementById('catalog-close');
     const openBtn     = document.getElementById('g-viewall');
-    const WA = 'https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0';
+    const WA = 'https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0';
     let built = false;
     let savedY = 0;
 
@@ -2940,7 +2943,7 @@
       const expanded = btn.getAttribute('aria-expanded') === 'true';
       const wrap = document.getElementById(btn.getAttribute('aria-controls'));
       btn.setAttribute('aria-expanded', String(!expanded));
-      wrap.classList.toggle('open', !expanded);
+      wrap.style.maxHeight = expanded ? '0' : wrap.scrollHeight + 'px';
     });
   });
 
@@ -2971,7 +2974,7 @@
 </div>
 
 <!-- ── Floating WhatsApp button ──────────── -->
-<a href="https://api.whatsapp.com/send/?phone=971505335004&text&type=phone_number&app_absent=0"
+<a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
    target="_blank" rel="noopener noreferrer"
    class="wa-float"
    aria-label="Contact us on WhatsApp">
