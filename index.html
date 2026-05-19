@@ -418,66 +418,12 @@
       color: rgba(160,205,245,0.85);
     }
     .hero__cta { opacity: 0; animation: fadeUp 0.8s ease 0.56s forwards; }
-    .hero__cta-meta {
-      margin-top: 14px;
-      font-size: 13px;
-      color: rgba(247,243,232,0.55);
-      line-height: 1.5;
-    }
-
     /* Scroll indicator */
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: none; }
     }
-
-    /* ─── 3. STATEMENT ──────────────────────────── */
-    .statement {
-      padding: 52px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg-panel);
-      border-top: 1px solid rgba(196,164,93,0.12);
-      border-bottom: 1px solid rgba(196,164,93,0.08);
-    }
-    .statement::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 100% at 50% 50%, rgba(196,164,93,0.065) 0%, transparent 62%),
-        radial-gradient(ellipse 50% 60% at 15% 50%, rgba(42,84,128,0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 60% at 85% 50%, rgba(26,58,92,0.10) 0%, transparent 55%);
-      pointer-events: none;
-    }
-    .statement__text {
-      font-family: var(--font-serif);
-      font-size: clamp(28px, 4.5vw, 58px);
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      line-height: 1.12;
-      max-width: 880px;
-      margin: 0 auto 44px;
-      position: relative;
-    }
-    .statement__text em {
-      font-style: italic;
-      background: var(--gold-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .statement__line {
-      width: 48px;
-      height: 2px;
-      background: var(--gold-grad);
-      margin: 0 auto 24px;
-      border-radius: 2px;
-      opacity: 0.7;
-    }
-
 
     /* ─── 4. DETAILS CARDS ──────────────────────── */
     .details-header { margin-bottom: 40px; }
@@ -781,6 +727,20 @@
       margin-bottom: 0;
       font-size: 13px;
       color: var(--muted);
+    }
+    @media (max-width: 767px) {
+      .g-cta {
+        padding: 28px 20px;
+        margin-top: 28px;
+      }
+      .g-cta p {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .g-cta .btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     /* ── Gallery "view all" button ── */
@@ -1705,28 +1665,27 @@
 
   <div class="wrap">
     <div class="hero__content">
-      <p class="hero__eye">Dubai's Premium Decal Studio</p>
+      <p class="hero__eye">Premium Decal Studio Trusted by 300+ Car Owners in Dubai</p>
       <h1 class="hero__h1">
-        We make your car<br>
-        look like it was<br>
-        built for <em>you</em>
+        Your car is one<br>
+        of thousands.<br>
+        Make it <em>one of one.</em>
       </h1>
-      <p class="hero__sub">Custom &amp; ready-made decals — designed, printed and installed in Dubai</p>
+      <p class="hero__sub">We design, print and install — and your car leaves looking like nothing else on the road.</p>
       <p class="hero__support">Ferrari, Lamborghini, G-Wagon, Land Cruiser, Patrol and any other make — we've done them all</p>
 
       <div class="badges" role="list" aria-label="Trust indicators">
-        <span class="badge" role="listitem">&#9733; 4.9 on Google</span>
-        <span class="badge" role="listitem">300+ cars done in Dubai</span>
-        <span class="badge badge--steel" role="listitem">Done in 1–3 days</span>
+        <span class="badge" role="listitem">★ 4.9 · 47 Google reviews</span>
+        <span class="badge" role="listitem">Ferrari. Lambo. G-Wagon. And counting.</span>
+        <span class="badge badge--steel" role="listitem">Ready in 1–3 days, zero surprises</span>
       </div>
 
       <div class="hero__cta">
         <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
            target="_blank" rel="noopener noreferrer" class="btn btn-gold">
           <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
-          Get a Free Quote on WhatsApp
+          See what your car could look like
         </a>
-        <p class="hero__cta-meta">From AED 290 &nbsp;·&nbsp; We show you the design before printing &nbsp;·&nbsp; No obligation</p>
       </div>
     </div>
   </div>
@@ -1735,18 +1694,7 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     3. STATEMENT
-══════════════════════════════════════════ -->
-<section class="statement" aria-label="Brand statement">
-  <div class="wrap">
-    <div class="statement__line" data-animate aria-hidden="true"></div>
-    <p class="statement__text" data-animate data-animate-delay="1">
-      It's not just a sticker.<br>
-      It changes how your <em>car is perceived.</em>
-    </p>
-  </div>
-</section>
+
 
 
 
@@ -2007,7 +1955,7 @@
   <div class="wrap">
     <div class="reviews-header">
       <p class="s-eyebrow" data-animate>Client Reviews</p>
-      <h2 class="s-title" id="reviews-title" data-animate data-animate-delay="1">Cars that became <em>iconic</em></h2>
+      <h2 class="s-title" id="reviews-title" data-animate data-animate-delay="1">What happens to a car when we're done with it.</h2>
       <p class="s-sub" data-animate data-animate-delay="2">Real stories from real people — and real cars.</p>
       <div class="rev-trust-row" data-animate data-animate-delay="3">
         <span class="rev-trust-badge">★ 4.9 · 300+ cars done in Dubai</span>
@@ -2218,12 +2166,12 @@
   <div class="wrap">
     <div class="midcta__inner">
       <p class="midcta__eyebrow">Ready to start?</p>
-      <p class="midcta__text">Like what you see?<br>Get a quote — free, no obligation.</p>
-      <p class="midcta__sub">We respond within 2 hours and send a design concept the same day.</p>
+      <p class="midcta__text">Your car is 3 days away<br>from looking like this.</p>
+      <p class="midcta__sub">Send us a photo — we'll send a concept the same day.</p>
       <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
          target="_blank" rel="noopener noreferrer" class="btn btn-gold">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
-        Get a Free Quote
+        Send a photo on WhatsApp
       </a>
     </div>
   </div>
@@ -2364,7 +2312,7 @@
     <div class="details-header">
       <p class="s-eyebrow" data-animate>Design philosophy</p>
       <h2 class="s-title" id="details-title" data-animate data-animate-delay="1">
-        The details you don't notice<br>are the ones that matter most
+        What separates a sticker<br>from a signature.
       </h2>
     </div>
     <div class="details-grid stagger" id="details-stagger">
@@ -2396,7 +2344,7 @@
     <div class="choose-header">
       <p class="s-eyebrow" data-animate>Why Just Graphics?</p>
       <h2 class="s-title" id="why-us-title" data-animate data-animate-delay="1">
-        One studio. Full control.<br>Factory-level results.
+        We design it. We print it.<br>We install it.
       </h2>
     </div>
     <div class="choose-grid stagger" id="choose-stagger">
@@ -2542,23 +2490,23 @@
     <div class="process-steps stagger" id="pstagger">
       <div class="pstep">
         <div class="pstep__num" aria-hidden="true">01</div>
-        <h3 class="pstep__title">Selecting the design &amp; inspection</h3>
-        <p class="pstep__body">We assess your car's condition, color, and paintwork — then build the perfect solution for it.</p>
+        <h3 class="pstep__title">You describe the vision — we assess your car</h3>
+        <p class="pstep__body">We inspect your car's condition, color, and paintwork — then build the right solution around it.</p>
       </div>
       <div class="pstep">
         <div class="pstep__num" aria-hidden="true">02</div>
-        <h3 class="pstep__title">Design &amp; adaptation</h3>
-        <p class="pstep__body">For ready decals, we adapt size and color. For custom projects, we prepare the full design concept.</p>
+        <h3 class="pstep__title">We build the design — you approve it</h3>
+        <p class="pstep__body">For ready decals, we adapt size and color. For custom projects, we prepare the full concept — nothing gets printed without your sign-off.</p>
       </div>
       <div class="pstep">
         <div class="pstep__num" aria-hidden="true">03</div>
-        <h3 class="pstep__title">Print, cut &amp; laminate</h3>
-        <p class="pstep__body">We prepare the material, protect printed graphics with lamination and cut everything precision-ready for installation.</p>
+        <h3 class="pstep__title">We print, cut, laminate — precision-ready</h3>
+        <p class="pstep__body">Materials prepared, graphics protected with lamination, every piece cut to fit your exact body panels.</p>
       </div>
       <div class="pstep">
         <div class="pstep__num" aria-hidden="true">04</div>
-        <h3 class="pstep__title">Professional installation</h3>
-        <p class="pstep__body">We install the decals in our Dubai studio and conduct a final inspection before handover.</p>
+        <h3 class="pstep__title">You pick up a car that turns heads</h3>
+        <p class="pstep__body">Installed at our Dubai studio. Final inspection done. You drive out — and it shows.</p>
       </div>
     </div>
 
