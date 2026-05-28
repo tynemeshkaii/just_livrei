@@ -6,6 +6,20 @@
   <title>Just Graphics — Premium Car Decal Studio in Dubai</title>
   <meta name="description" content="Custom & ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done. Get a free consultation today.">
   <meta name="theme-color" content="#0A0A09">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Just Graphics — Premium Car Decal Studio in Dubai">
+  <meta property="og:description" content="Custom & ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done.">
+  <meta property="og:image" content="Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+  <meta property="og:locale" content="en_AE">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Just Graphics — Premium Car Decal Studio in Dubai">
+  <meta name="twitter:description" content="Custom & ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done.">
+  <meta name="twitter:image" content="Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Non-render-blocking font load: Inter + Playfair Display -->
@@ -112,7 +126,12 @@
     .stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.35s; }
 
     /* ─── Section ───────────────────────────────── */
-    .section { padding: 64px 0; content-visibility: auto; contain-intrinsic-size: auto 700px; border-top: 1px solid rgba(244,238,221,0.055); }
+    .section { padding: 64px 0; content-visibility: auto; contain-intrinsic-size: auto 800px; border-top: 1px solid rgba(244,238,221,0.055); }
+    #cases    { contain-intrinsic-size: auto 950px; }
+    #gallery  { contain-intrinsic-size: auto 1100px; }
+    #reviews  { contain-intrinsic-size: auto 1050px; }
+    #faq      { contain-intrinsic-size: auto 900px; }
+    #process  { contain-intrinsic-size: auto 950px; }
     @media (min-width: 768px) { .section { padding: 88px 0; } }
     .section--dark    { background: var(--bg); }
     .section--surface {
@@ -265,9 +284,152 @@
       font-weight: 700;
       color: var(--text);
       transition: color var(--t);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
     }
     .nav__phone:hover { color: var(--gold); }
     .nav__hours { font-size: 12px; color: var(--muted); }
+    /* Mobile: hide hours, compact phone */
+    @media (max-width: 767px) {
+      .nav__hours { display: none; }
+      .nav__phone { font-size: 14px; }
+      .nav__right { gap: 10px; }
+    }
+    @media (max-width: 419px) {
+      .nav__contact { display: none; }
+    }
+
+    /* ─── 1b. BURGER MENU ──────────────────────── */
+    .burger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      transition: border-color var(--t), background var(--t);
+      position: relative;
+      z-index: 1001;
+      flex-shrink: 0;
+    }
+    .burger:hover { border-color: var(--bh); background: rgba(255,255,255,0.04); }
+    .burger__line {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+    .burger__line::before,
+    .burger__line::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: transform 0.3s ease, top 0.3s ease;
+    }
+    .burger__line::before { top: -6px; }
+    .burger__line::after  { top:  6px; }
+
+    /* Burger → X morph */
+    .burger.is-active .burger__line { background: transparent; }
+    .burger.is-active .burger__line::before { top: 0; transform: rotate(45deg); }
+    .burger.is-active .burger__line::after  { top: 0; transform: rotate(-45deg); }
+
+    /* Overlay */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,5,5,0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 950;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .menu-overlay.is-open { opacity: 1; visibility: visible; }
+
+    /* Slide-in panel */
+    .menu-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(320px, 85vw);
+      height: 100%;
+      background:
+        radial-gradient(ellipse 80% 50% at 90% 10%, rgba(196,164,93,0.04), transparent 60%),
+        var(--bg);
+      border-left: 1px solid var(--border);
+      z-index: 960;
+      display: flex;
+      flex-direction: column;
+      padding: calc(var(--nh) + 24px) 28px 32px;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .menu-panel.is-open { transform: translateX(0); }
+
+    /* Nav links */
+    .menu-nav { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .menu-nav__item {
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-nav__item:first-child { border-top: 1px solid var(--border); }
+    .menu-nav__link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 4px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--sub);
+      transition: color 0.25s ease, padding-left 0.25s ease;
+      letter-spacing: 0.01em;
+    }
+    .menu-nav__link:hover,
+    .menu-nav__link:focus-visible {
+      color: var(--gold-h);
+      padding-left: 8px;
+    }
+    .menu-nav__num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      min-width: 18px;
+    }
+
+    /* CTA inside menu */
+    .menu-cta {
+      margin-top: auto;
+      padding-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .menu-cta .btn { justify-content: center; font-size: 14px; padding: 13px 20px; }
+
+    /* Desktop: hide burger, show nothing extra */
+    @media (min-width: 1024px) {
+      .burger { display: none; }
+      .menu-overlay,
+      .menu-panel { display: none !important; }
+    }
+
+    /* Body scroll lock */
+    body.menu-open { overflow: hidden; }
 
     /* ─── 2. HERO ───────────────────────────────── */
     .hero {
@@ -417,7 +579,7 @@
       border-color: rgba(42,84,128,0.40);
       color: rgba(160,205,245,0.85);
     }
-    .hero__cta { opacity: 0; animation: fadeUp 0.8s ease 0.56s forwards; }
+    .hero__cta { opacity: 0; animation: fadeUp 0.8s ease 0.56s forwards; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
     /* Scroll indicator */
 
     @keyframes fadeUp {
@@ -660,8 +822,8 @@
     .g-card .btn {
       width: auto;
       justify-content: center;
-      padding: 10px 18px;
-      min-height: 38px;
+      padding: 12px 18px;
+      min-height: 44px;
       border-radius: 999px;
       background: rgba(196,164,93,0.85);
       border-color: rgba(196,164,93,0.4);
@@ -791,38 +953,103 @@
       pointer-events: auto;
       visibility: visible;
     }
+
+    /* ── Catalog header ── */
     .catalog-head {
       flex: 0 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 20px;
+      gap: 12px;
+      padding: 14px 16px;
       border-bottom: 1px solid var(--border);
-      background: rgba(14,18,24,0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(14,18,24,0.97);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       position: sticky;
       top: 0;
-      z-index: 1;
+      z-index: 2;
     }
-    @media (min-width: 768px) { .catalog-head { padding: 20px 32px; } }
+    @media (min-width: 768px) { .catalog-head { padding: 16px 28px; } }
+
     .catalog-head-left {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
     .catalog-title {
-      font-size: 17px;
-      font-weight: 700;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 900;
       color: var(--text);
+      letter-spacing: -0.01em;
     }
     .catalog-count {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
+      font-weight: 500;
     }
+    .catalog-sale-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 11px;
+      background: linear-gradient(135deg, rgba(196,164,93,0.22), rgba(196,164,93,0.10));
+      border: 1px solid rgba(196,164,93,0.35);
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ── Filter tabs ── */
+    .catalog-filters {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+      min-width: 0;
+    }
+    .catalog-filter {
+      padding: 6px 14px;
+      border-radius: 50px;
+      border: 1.5px solid transparent;
+      background: transparent;
+      color: var(--sub);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--t);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1;
+    }
+    .catalog-filter:hover {
+      background: rgba(247,243,232,0.05);
+      color: var(--text);
+    }
+    .catalog-filter.active {
+      background: var(--gold-d2);
+      border-color: rgba(196,164,93,0.40);
+      color: var(--gold);
+    }
+    .catalog-filter__count {
+      font-size: 11px;
+      opacity: 0.6;
+      font-weight: 500;
+    }
+    .catalog-filter.active .catalog-filter__count { opacity: 0.85; }
+
     .catalog-close {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: rgba(26,26,24,0.82);
       border: 1.5px solid var(--border);
@@ -835,14 +1062,18 @@
       flex-shrink: 0;
     }
     .catalog-close:hover { border-color: rgba(255,255,255,0.3); color: var(--text); background: var(--bg-card-2); }
+
+    /* ── Catalog body ── */
     .catalog-body {
       flex: 1 1 auto;
       overflow-y: auto;
       overscroll-behavior: contain;
       -webkit-overflow-scrolling: touch;
-      padding: 16px;
+      padding: 14px 14px 100px;
     }
-    @media (min-width: 768px) { .catalog-body { padding: 24px 32px; } }
+    @media (min-width: 768px) { .catalog-body { padding: 20px 28px 110px; } }
+
+    /* ── Catalog grid ── */
     .catalog-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -851,23 +1082,46 @@
     @media (min-width: 600px)  { .catalog-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
     @media (min-width: 1024px) { .catalog-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; } }
     @media (min-width: 1440px) { .catalog-grid { grid-template-columns: repeat(5, 1fr); } }
+
+    /* ── Catalog card ── */
     .catalog-card {
-      background: rgba(26,26,24,0.78);
+      background: rgba(26,26,24,0.82);
       border: 1px solid var(--border);
       border-radius: var(--rmd);
       overflow: hidden;
-      transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+      transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .catalog-card.card-visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease,
+                  opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .catalog-card.card-hidden {
+      display: none;
     }
     .catalog-card:hover {
-      border-color: rgba(196,164,93,0.26);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      border-color: rgba(196,164,93,0.30);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(196,164,93,0.08);
     }
+
+    /* Photo area */
     .catalog-photo {
       aspect-ratio: 4/3;
       position: relative;
       overflow: hidden;
-      background: var(--bg-media-m);
+      background: linear-gradient(140deg, var(--bg-media-h) 0%, var(--bg-media-m) 55%, var(--bg-media) 100%);
+    }
+    .catalog-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(5,5,5,0.40), transparent 50%);
+      pointer-events: none;
+      z-index: 1;
     }
     .catalog-photo img {
       position: absolute;
@@ -876,18 +1130,412 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.55s cubic-bezier(0.22,1,0.36,1);
     }
+    .catalog-card:hover .catalog-photo img {
+      transform: scale(1.04);
+    }
+
+    /* Size badge on photo */
+    .catalog-size {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 2;
+      padding: 3px 9px;
+      border-radius: 50px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid;
+    }
+    .catalog-size--s {
+      background: rgba(100,200,150,0.18);
+      border-color: rgba(100,200,150,0.35);
+      color: rgba(140,230,180,0.95);
+    }
+    .catalog-size--m {
+      background: rgba(100,170,230,0.18);
+      border-color: rgba(100,170,230,0.35);
+      color: rgba(140,195,245,0.95);
+    }
+    .catalog-size--l {
+      background: rgba(230,140,80,0.18);
+      border-color: rgba(230,140,80,0.35);
+      color: rgba(245,175,110,0.95);
+    }
+
+    /* Discount badge on photo */
+    .catalog-discount {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+      padding: 3px 8px;
+      border-radius: 50px;
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(196,164,93,0.88);
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+
+    /* Card info area */
+    .catalog-info {
+      padding: 10px 10px 6px;
+    }
+    @media (min-width: 768px) { .catalog-info { padding: 12px 12px 8px; } }
+
+    .catalog-info__top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .catalog-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .catalog-meters {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Price row */
+    .catalog-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .catalog-price {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .catalog-price-old {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: line-through;
+      line-height: 1;
+    }
+    .catalog-price-label {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Card CTA */
     .catalog-card .btn {
       display: flex;
       justify-content: center;
+      align-items: center;
+      gap: 6px;
       width: 100%;
-      padding: 10px 12px;
-      font-size: 13px;
+      padding: 9px 10px;
+      font-size: 12px;
+      font-weight: 700;
       border-radius: 0 0 var(--rmd) var(--rmd);
-      background: rgba(7,7,6,0.82);
-      border-color: rgba(244,238,221,0.08);
-      color: rgba(247,243,232,0.86);
+      background: rgba(196,164,93,0.12);
+      border: none;
+      border-top: 1px solid var(--border);
+      color: var(--gold);
       box-shadow: none;
+      transition: background var(--t), color var(--t);
+    }
+    .catalog-card .btn:hover {
+      background: rgba(196,164,93,0.22);
+      color: var(--gold-h);
+      transform: none;
+    }
+    .catalog-card .btn svg {
+      opacity: 0.7;
+    }
+
+    /* ── Catalog sticky footer ── */
+    .catalog-foot {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      padding: 14px 16px;
+      background: rgba(14,18,24,0.95);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    @media (min-width: 768px) { .catalog-foot { padding: 16px 28px; } }
+    .catalog-foot__text {
+      font-size: 13px;
+      color: var(--sub);
+      line-height: 1.4;
+    }
+    .catalog-foot__text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .catalog-foot .btn {
+      padding: 10px 20px;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    /* ── Lead form slide-up panel ── */
+    .lead-panel {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 4;
+      background: rgba(10,14,20,0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(196,164,93,0.25);
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .lead-panel.is-open {
+      max-height: 500px;
+    }
+    .lead-panel__inner {
+      padding: 20px 20px 24px;
+    }
+    @media (min-width: 768px) { .lead-panel__inner { padding: 24px 32px 28px; } }
+
+    .lead-panel__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .lead-panel__preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+    .lead-panel__thumb {
+      width: 56px;
+      height: 42px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .lead-panel__thumb.hidden { display: none; }
+    .lead-panel__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .lead-panel__subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .lead-panel__close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(26,26,24,0.82);
+      border: 1.5px solid var(--border);
+      color: var(--sub);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color var(--t), color var(--t);
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    .lead-panel__close:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+
+    /* Form fields */
+    .lead-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .lead-form {
+        grid-template-columns: 1fr 1fr 1fr auto;
+        gap: 10px;
+        align-items: end;
+      }
+    }
+    .lead-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .lead-field__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .lead-field__input {
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(26,26,24,0.82);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color var(--t), box-shadow var(--t);
+      outline: none;
+    }
+    .lead-field__input::placeholder {
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .lead-field__input:focus {
+      border-color: rgba(196,164,93,0.50);
+      box-shadow: 0 0 0 3px rgba(196,164,93,0.10);
+    }
+    .lead-field__input.has-error {
+      border-color: rgba(220,80,80,0.60);
+      box-shadow: 0 0 0 3px rgba(220,80,80,0.10);
+      animation: shake 0.4s ease;
+    }
+    .lead-field__input.has-error::placeholder { color: rgba(220,80,80,0.55); }
+
+    .lead-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #B38C3D 0%, #E9D18A 48%, #B9974B 100%);
+      background-size: 200% auto;
+      color: var(--ink);
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-position var(--t), box-shadow var(--t), transform var(--t);
+      box-shadow: 0 6px 20px rgba(196,164,93,0.20);
+      white-space: nowrap;
+      min-height: 44px;
+    }
+    .lead-submit:hover {
+      background-position: right center;
+      box-shadow: 0 10px 28px rgba(196,164,93,0.30);
+      transform: translateY(-1px);
+    }
+    .lead-submit:active { transform: translateY(0); }
+    .lead-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .lead-submit .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: var(--ink);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .lead-submit.loading .spinner { display: block; }
+    .lead-submit.loading .lead-submit__text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Privacy note */
+    .lead-privacy {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Success state */
+    .lead-success {
+      display: none;
+      text-align: center;
+      padding: 8px 0;
+    }
+    .lead-success.is-visible { display: block; }
+    .lead-success__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(100,200,120,0.15);
+      border: 1.5px solid rgba(100,200,120,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      color: rgba(100,220,130,0.9);
+    }
+    .lead-success__title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .lead-success__text {
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 599px) {
+      .catalog-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 8px 10px;
+        padding: 12px 14px;
+      }
+      .catalog-head-left { grid-column: 1; grid-row: 1; }
+      .catalog-close { grid-column: 2; grid-row: 1; }
+      .catalog-filters {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: flex-start;
+        gap: 4px;
+        padding-top: 6px;
+        border-top: 1px solid var(--border);
+      }
+      .catalog-filter { padding: 5px 11px; font-size: 12px; }
+      .catalog-sale-badge { display: none; }
+      .catalog-foot {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .catalog-foot .btn { width: 100%; justify-content: center; }
+      .lead-panel__thumb { width: 44px; height: 33px; }
+      .lead-submit { width: 100%; }
     }
 
     /* ─── 7. CASES ──────────────────────────────── */
@@ -1039,16 +1687,19 @@
       flex-shrink: 0;
     }
     .cases-arrow:hover { border-color: var(--gold); background: var(--gold-d2); color: var(--gold); }
-    .cases-dots { display: flex; gap: 8px; align-items: center; }
+    .cases-dots { display: flex; gap: 0; align-items: center; }
     .cdot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
       background: rgba(255,255,255,0.18);
       border: none;
+      padding: 18px;
+      background-clip: content-box;
+      cursor: pointer;
       transition: background var(--t), transform var(--t);
     }
-    .cdot.active { background: var(--gold); transform: scale(1.5); }
+    .cdot.active { background: var(--gold); background-clip: content-box; transform: scale(1.5); }
 
     /* ─── 8. PROCESS ────────────────────────────── */
     .process-header { margin-bottom: 48px; }
@@ -1120,35 +1771,48 @@
       padding: 0 0 40px;
       position: relative;
     }
-    /* Gold gradient top divider */
     .footer::before {
       content: '';
       display: block;
       height: 1px;
       background: linear-gradient(90deg, transparent 0%, rgba(196,164,93,0.13) 20%, rgba(196,164,93,0.48) 50%, rgba(196,164,93,0.13) 80%, transparent 100%);
     }
-    .footer > .wrap { padding-top: 72px; }
+    .footer > .wrap { padding-top: 64px; }
+
+    /* ── Footer top: brand + nav + contact + map in a 4-col grid ── */
     .footer__grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 48px;
-      margin-bottom: 56px;
+      gap: 40px 32px;
+      margin-bottom: 0;
     }
-    @media (min-width: 640px)  { .footer__grid { grid-template-columns: repeat(2,1fr); gap: 40px; } }
-    @media (min-width: 1024px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1.6fr; } }
+    @media (min-width: 640px) {
+      .footer__grid { grid-template-columns: 1fr 1fr; gap: 40px 48px; }
+    }
+    @media (min-width: 1024px) {
+      .footer__grid { grid-template-columns: 1.5fr 0.8fr 1fr 1.6fr; gap: 24px 40px; }
+    }
 
+    /* Brand column */
+    .footer__brand { display: flex; flex-direction: column; }
     .footer__logo-img {
-      height: 52px;
-      width: 52px;
+      height: 48px;
+      width: 48px;
       object-fit: contain;
-      border-radius: 12px;
-      margin-bottom: 14px;
+      border-radius: 11px;
+      margin-bottom: 16px;
     }
-    .footer__tagline { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 240px; }
-    .footer__socials { display: flex; gap: 10px; margin-top: 24px; }
+    .footer__tagline {
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.7;
+      max-width: 260px;
+      margin-bottom: 20px;
+    }
+    .footer__socials { display: flex; gap: 8px; }
     .social-btn {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -1156,42 +1820,89 @@
       align-items: center;
       justify-content: center;
       color: var(--sub);
-      transition: all var(--t);
+      transition: border-color var(--t), color var(--t), background var(--t);
     }
     .social-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-d2); }
 
+    /* Column titles */
     .footer__col-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
+      color: var(--gold);
+      margin-bottom: 18px;
+      opacity: 0.7;
     }
-    .footer__list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-    .footer__list li { font-size: 15px; color: var(--sub); }
-    .footer__list a { color: var(--sub); transition: color var(--t); }
-    .footer__list a:hover { color: var(--gold); }
+
+    /* Nav links column */
+    .footer__nav { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer__nav a {
+      font-size: 14px;
+      color: var(--sub);
+      transition: color 0.2s ease, padding-left 0.2s ease;
+    }
+    .footer__nav a:hover { color: var(--text); padding-left: 4px; }
+
+    /* Contact column */
+    .footer__contact-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .footer__contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.5;
+    }
+    .footer__contact-item svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+    .footer__contact-item a {
+      color: var(--sub);
+      transition: color var(--t);
+    }
+    .footer__contact-item a:hover { color: var(--gold); }
     .footer__phone-link {
-      display: inline-flex;
-      align-items: center;
-      font-size: 17px !important;
+      font-size: 15px !important;
       font-weight: 700;
       color: var(--text) !important;
     }
     .footer__phone-link:hover { color: var(--gold) !important; }
 
-    .footer__map { border-radius: var(--rmd); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16/9; }
+    /* Map column */
+    .footer__map-col {}
+    .footer__map {
+      border-radius: var(--rmd);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 16/9;
+    }
     .footer__map iframe {
       width: 100%; height: 100%; border: none; display: block;
       filter: invert(92%) hue-rotate(185deg) saturate(0.7) brightness(0.9);
     }
+    .footer__map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gold);
+      opacity: 0.6;
+      transition: opacity var(--t);
+    }
+    .footer__map-link:hover { opacity: 1; }
+
+    /* ── Footer CTA band ── */
     .footer__cta {
       position: relative;
-      padding: 52px 0 48px;
+      margin-top: 56px;
+      padding: 44px 0 40px;
       text-align: center;
     }
-    /* Gold gradient divider above CTA */
     .footer__cta::before {
       content: '';
       display: block;
@@ -1202,28 +1913,39 @@
     }
     .footer__cta-text {
       font-family: var(--font-serif);
-      font-size: clamp(22px, 3vw, 32px);
+      font-size: clamp(22px, 3vw, 30px);
       font-weight: 900;
       letter-spacing: -0.02em;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .footer__cta-sub {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--sub);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       line-height: 1.6;
     }
 
+    /* ── Footer bottom ── */
     .footer__bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 28px;
+      position: relative;
+      margin-top: 40px;
+      padding-top: 24px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font-size: 13px;
+      gap: 4px;
+      font-size: 12px;
       color: var(--muted);
     }
-    @media (min-width: 640px) { .footer__bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer__bottom::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(196,164,93,0.08) 20%, rgba(196,164,93,0.20) 50%, rgba(196,164,93,0.08) 80%, transparent 100%);
+    }
+    @media (min-width: 640px) {
+      .footer__bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
 
     /* ─── Floating WhatsApp ─────────────── */
     .wa-float {
@@ -1256,6 +1978,9 @@
       100% { transform: scale(1.35); opacity: 0; }
     }
     @media (max-width: 480px) { .wa-float { bottom: 20px; right: 16px; width: 52px; height: 52px; } }
+    @media (max-width: 767px) {
+      .wa-float.bar-active { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    }
 
     /* ─── Mid-page CTA ──────────────────── */
     .midcta {
@@ -1298,6 +2023,274 @@
       line-height: 1.6;
     }
 
+    /* ─── Standalone lead form section ──── */
+    .cta-form {
+      padding: 64px 0;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 0%, rgba(196,164,93,0.06) 0%, transparent 60%),
+        var(--bg);
+      border-top: 1px solid rgba(196,164,93,0.12);
+      border-bottom: 1px solid rgba(196,164,93,0.12);
+    }
+    @media (min-width: 768px) { .cta-form { padding: 88px 0; } }
+    .cta-form__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    @media (min-width: 768px) { .cta-form__grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
+    .cta-form__text { max-width: 480px; }
+    .cta-form__title {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .cta-form__sub {
+      font-size: 16px;
+      color: var(--sub);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .cta-form__trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cta-form__trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--sub);
+    }
+    .cta-form__trust-item svg { color: var(--gold); flex-shrink: 0; }
+    .cta-form__card {
+      background: rgba(26,26,24,0.72);
+      border: 1px solid var(--border);
+      border-radius: var(--rxl);
+      padding: 32px 28px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-form__card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 300px; height: 300px;
+      background: radial-gradient(ellipse at 0% 0%, rgba(196,164,93,0.08) 0%, transparent 66%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .cta-form__card > * { position: relative; z-index: 1; }
+    .cta-form__card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .cta-form__card-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .cta-form__fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cta-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 480px) { .cta-form__row { grid-template-columns: 1fr; } }
+    .cta-form__input {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(26,26,24,0.82);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      transition: border-color var(--t), box-shadow var(--t);
+      outline: none;
+    }
+    .cta-form__input::placeholder { color: var(--muted); font-weight: 400; }
+    .cta-form__input:focus {
+      border-color: rgba(196,164,93,0.50);
+      box-shadow: 0 0 0 3px rgba(196,164,93,0.10);
+    }
+    .cta-form__input.has-error {
+      border-color: rgba(220,80,80,0.60);
+      box-shadow: 0 0 0 3px rgba(220,80,80,0.10);
+      animation: shake 0.4s ease;
+    }
+    .cta-form__input.has-error::placeholder { color: rgba(220,80,80,0.55); }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+    .cta-form__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .cta-form__submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 28px;
+      background: linear-gradient(135deg, #B38C3D 0%, #E9D18A 48%, #B9974B 100%);
+      background-size: 200% auto;
+      color: var(--ink);
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-position var(--t), box-shadow var(--t), transform var(--t);
+      box-shadow: 0 8px 24px rgba(196,164,93,0.20);
+      width: 100%;
+    }
+    .cta-form__submit:hover {
+      background-position: right center;
+      box-shadow: 0 12px 32px rgba(196,164,93,0.30);
+      transform: translateY(-1px);
+    }
+    .cta-form__submit:active { transform: translateY(0); }
+    .cta-form__submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .cta-form__submit .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: var(--ink);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .cta-form__submit.loading .spinner { display: block; }
+    .cta-form__submit.loading .cta-form__submit-text { display: none; }
+    .cta-form__or {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+    .cta-form__wa-alt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      transition: border-color var(--t), background var(--t);
+      text-decoration: none;
+    }
+    .cta-form__wa-alt:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); }
+    .cta-form__privacy {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .cta-form__success {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .cta-form__success.is-visible { display: block; }
+    .cta-form__success-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(100,200,120,0.15);
+      border: 1.5px solid rgba(100,200,120,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      color: rgba(100,220,130,0.9);
+    }
+    .cta-form__success-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .cta-form__success-text {
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.6;
+    }
+
+    /* ─── Sticky mobile CTA bar ────────── */
+    .mobile-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 850;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: rgba(7,7,6,0.95);
+      backdrop-filter: blur(18px) saturate(120%);
+      -webkit-backdrop-filter: blur(18px) saturate(120%);
+      border-top: 1px solid rgba(196,164,93,0.18);
+      gap: 8px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .mobile-cta.is-visible { transform: translateY(0); }
+    @media (max-width: 767px) {
+      .mobile-cta { display: flex; }
+      body { padding-bottom: 72px; }
+    }
+    .mobile-cta__btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 12px;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--t), box-shadow var(--t);
+      line-height: 1;
+    }
+    .mobile-cta__btn:active { transform: scale(0.97); }
+    .mobile-cta__btn--wa {
+      background: linear-gradient(135deg, #B38C3D 0%, #E9D18A 48%, #B9974B 100%);
+      color: var(--ink);
+      box-shadow: 0 4px 16px rgba(196,164,93,0.22);
+    }
+    .mobile-cta__btn--call {
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      color: var(--text);
+    }
+
     /* ─── FAQ ────────────────────────────── */
     .faq-header { margin-bottom: 52px; }
     .faq-list {
@@ -1326,7 +2319,7 @@
       border-radius: 50%;
       border: 1.5px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      color: var(--muted);
+      color: var(--sub);
       transition: transform var(--t), border-color var(--t), color var(--t);
     }
     .faq-q[aria-expanded="true"] .faq-icon { transform: rotate(45deg); border-color: var(--gold); color: var(--gold); }
@@ -1502,13 +2495,14 @@
       align-items: center;
       gap: 6px;
       margin-top: 16px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
-      color: var(--gold);
+      color: var(--gold-h);
       background: var(--gold-d2);
-      border: 1px solid rgba(196,164,93,0.22);
+      border: 1px solid rgba(196,164,93,0.30);
       border-radius: 50px;
-      padding: 6px 14px;
+      padding: 8px 16px;
+      min-height: 44px;
       cursor: pointer;
       transition: background var(--t), border-color var(--t);
       align-self: flex-start;
@@ -1559,17 +2553,19 @@
     }
     .rev-arrow:hover { border-color: var(--gold); background: var(--gold-d2); color: var(--gold); }
     .rev-arrow:disabled { opacity: 0.35; pointer-events: none; }
-    .rev-dots { display: flex; gap: 8px; align-items: center; }
+    .rev-dots { display: flex; gap: 0; align-items: center; }
     .rdot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
       background: rgba(255,255,255,0.18);
       border: none;
+      padding: 18px;
+      background-clip: content-box;
       cursor: pointer;
       transition: background var(--t), transform var(--t);
     }
-    .rdot.active { background: var(--gold); transform: scale(1.5); }
+    .rdot.active { background: var(--gold); background-clip: content-box; transform: scale(1.5); }
     .rev-counter {
       margin-left: auto;
       font-size: 13px;
@@ -1641,10 +2637,35 @@
         </a>
       </div>
       <div class="nav__contact">
-        <a href="tel:+971505335004" class="nav__phone">+971 50 533 5004</a>
+        <a href="tel:+971505335004" class="nav__phone" data-event="contact_call">+971 50 533 5004</a>
         <span class="nav__hours">Mon–Sat &middot; 9:00–19:00</span>
       </div>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel">
+        <span class="burger__line" aria-hidden="true"></span>
+      </button>
     </div>
+  </div>
+</nav>
+
+<!-- ── Mobile slide-in menu ── -->
+<div class="menu-overlay" id="menu-overlay" aria-hidden="true"></div>
+<nav class="menu-panel" id="menu-panel" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+  <ul class="menu-nav">
+    <li class="menu-nav__item"><a href="#cases"     class="menu-nav__link"><span class="menu-nav__num">01</span>Cases</a></li>
+    <li class="menu-nav__item"><a href="#gallery"    class="menu-nav__link"><span class="menu-nav__num">02</span>Gallery</a></li>
+    <li class="menu-nav__item"><a href="#reviews"    class="menu-nav__link"><span class="menu-nav__num">03</span>Reviews</a></li>
+    <li class="menu-nav__item"><a href="#details"    class="menu-nav__link"><span class="menu-nav__num">04</span>How It Works</a></li>
+    <li class="menu-nav__item"><a href="#why-us"     class="menu-nav__link"><span class="menu-nav__num">05</span>Why Us</a></li>
+    <li class="menu-nav__item"><a href="#faq"        class="menu-nav__link"><span class="menu-nav__num">06</span>FAQ</a></li>
+    <li class="menu-nav__item"><a href="#process"    class="menu-nav__link"><span class="menu-nav__num">07</span>Process</a></li>
+  </ul>
+  <div class="menu-cta">
+    <a href="#get-quote" class="btn btn-gold">Get a Free Quote</a>
+    <a href="https://api.whatsapp.com/send?phone=971505335004&text=Hello!%20I%27m%20interested%20in%20car%20decals."
+       class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+      <svg width="16" height="16" aria-hidden="true"><use href="#i-wa"/></svg>
+      WhatsApp
+    </a>
   </div>
 </nav>
 
@@ -1656,7 +2677,7 @@
 
   <!-- Real car photo background (Ferrari with gold stripe) -->
   <div class="hero__photo" aria-hidden="true">
-    <img src="Ferrari после.webp" alt="" draggable="false" fetchpriority="high" loading="eager">
+    <img src="Ferrari после.webp" alt="" draggable="false" fetchpriority="high" loading="eager" width="1254" height="1254">
   </div>
 
   <!-- Ambient glow + dot grid on top -->
@@ -1682,10 +2703,11 @@
 
       <div class="hero__cta">
         <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
-           target="_blank" rel="noopener noreferrer" class="btn btn-gold">
+           target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-event="contact_whatsapp">
           <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
-          See what your car could look like
+          Get a Free Quote on WhatsApp
         </a>
+        <a href="#cases" class="btn btn-outline" data-event="cta_see_work">See Our Work</a>
       </div>
     </div>
   </div>
@@ -1697,6 +2719,132 @@
 
 
 
+
+
+<!-- ══════════════════════════════════════════
+     CASES — before/after sliders (moved up for ad traffic)
+══════════════════════════════════════════ -->
+<section class="section section--surface" id="cases" aria-labelledby="cases-title">
+  <div class="wrap">
+    <div class="cases-header">
+      <p class="s-eyebrow" data-animate>Case Studies</p>
+      <h2 class="s-title" id="cases-title" data-animate data-animate-delay="1">Real cars. Real results.</h2>
+    </div>
+
+    <div class="cases-outer" role="region" aria-label="Case studies" aria-roledescription="carousel">
+      <div class="cases-track" id="cases-track">
+
+        <!-- ── Case 1: Ford Bronco ── -->
+        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 1 of 3: Ford Bronco">
+          <div class="compare" aria-label="Ford Bronco before and after comparison. Drag to compare.">
+            <div class="compare__before">
+              <img src="Ford Bronco после.webp" alt="Ford Bronco after decals" draggable="false" loading="lazy" decoding="async" width="1400" height="753">
+            </div>
+            <div class="compare__after">
+              <img src="Ford Bronco до.webp" alt="Ford Bronco before decals" draggable="false" loading="lazy" decoding="async" width="1254" height="1254">
+            </div>
+            <div class="compare__handle" style="left:50%" aria-hidden="true">
+              <div class="compare__btn">
+                <svg width="20" height="20" aria-hidden="true"><use href="#i-compare"/></svg>
+              </div>
+            </div>
+            <span class="compare__lbl compare__lbl--b">Before</span>
+            <span class="compare__lbl compare__lbl--a">After</span>
+          </div>
+          <div class="case-content">
+            <span class="case-tag">OEM-inspired desert side decals</span>
+            <h3 class="case-title">Ford Bronco</h3>
+            <div class="case-item">
+              <p class="case-item__lbl">Request</p>
+              <p class="case-item__txt">Original Bronco graphics — without the dealer wait.</p>
+            </div>
+            <div class="case-item case-item--result">
+              <p class="case-item__lbl">Result</p>
+              <p class="case-item__txt">Looks like a factory special edition. Off-road character — zero overkill.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Case 2: Ferrari ── -->
+        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 2 of 3: Ferrari">
+          <div class="compare" aria-label="Ferrari before and after comparison. Drag to compare.">
+            <div class="compare__before">
+              <img src="Ferrari после.webp" alt="Ferrari after gold stripe" draggable="false" loading="lazy" decoding="async" width="1254" height="1254" style="object-position: center 30%;">
+            </div>
+            <div class="compare__after">
+              <img src="Ferrari до.webp" alt="Ferrari before stripe" draggable="false" loading="lazy" decoding="async" width="1254" height="1254" style="object-position: center 35%;">
+            </div>
+            <div class="compare__handle" style="left:50%" aria-hidden="true">
+              <div class="compare__btn">
+                <svg width="20" height="20" aria-hidden="true"><use href="#i-compare"/></svg>
+              </div>
+            </div>
+            <span class="compare__lbl compare__lbl--b">Before</span>
+            <span class="compare__lbl compare__lbl--a">After</span>
+          </div>
+          <div class="case-content">
+            <span class="case-tag">Yellow center stripe</span>
+            <h3 class="case-title">Ferrari</h3>
+            <div class="case-item">
+              <p class="case-item__lbl">Request</p>
+              <p class="case-item__txt">One detail. Maximum impact.</p>
+            </div>
+            <div class="case-item case-item--result">
+              <p class="case-item__lbl">Result</p>
+              <p class="case-item__txt">Factory Tailor Made finish — not an aftermarket sticker.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Case 3: Lamborghini ── -->
+        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 3 of 3: Lamborghini">
+          <div class="compare" aria-label="Lamborghini before and after comparison. Drag to compare.">
+            <div class="compare__before">
+              <img src="Race Car после.webp" alt="Lamborghini after race graphics" draggable="false" loading="lazy" decoding="async" width="878" height="1472">
+            </div>
+            <div class="compare__after">
+              <img src="Race Car до.webp" alt="Lamborghini before race graphics" draggable="false" loading="lazy" decoding="async" width="1254" height="1254">
+            </div>
+            <div class="compare__handle" style="left:50%" aria-hidden="true">
+              <div class="compare__btn">
+                <svg width="20" height="20" aria-hidden="true"><use href="#i-compare"/></svg>
+              </div>
+            </div>
+            <span class="compare__lbl compare__lbl--b">Before</span>
+            <span class="compare__lbl compare__lbl--a">After</span>
+          </div>
+          <div class="case-content">
+            <span class="case-tag">Race Numbers &amp; Graphics</span>
+            <h3 class="case-title">Lamborghini</h3>
+            <div class="case-item">
+              <p class="case-item__lbl">Request</p>
+              <p class="case-item__txt">Exhibition-ready. No clutter.</p>
+            </div>
+            <div class="case-item case-item--result">
+              <p class="case-item__lbl">Result</p>
+              <p class="case-item__txt">Not just numbers on the doors. A full motorsport identity.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /cases-track -->
+    </div><!-- /cases-outer -->
+
+    <div class="cases-controls">
+      <button class="cases-arrow" id="cases-prev" aria-label="Previous case">
+        <svg width="18" height="18" aria-hidden="true"><use href="#i-left"/></svg>
+      </button>
+      <div class="cases-dots" role="tablist" aria-label="Case indicators" id="cdots">
+        <button class="cdot active" data-idx="0" role="tab" aria-selected="true"  aria-label="Case 1"></button>
+        <button class="cdot"        data-idx="1" role="tab" aria-selected="false" aria-label="Case 2"></button>
+        <button class="cdot"        data-idx="2" role="tab" aria-selected="false" aria-label="Case 3"></button>
+      </div>
+      <button class="cases-arrow" id="cases-next" aria-label="Next case">
+        <svg width="18" height="18" aria-hidden="true"><use href="#i-right"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
 
 
 <!-- ══════════════════════════════════════════
@@ -1718,197 +2866,197 @@
       <div class="g-track" id="g-track" role="list">
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/1.webp" alt="Just Graphics branded box — decal design sample 1" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/1.webp" alt="Just Graphics branded box — decal design sample 1" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/2.webp" alt="Bold racing stripe kit — decal design sample 2" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/2.webp" alt="Bold racing stripe kit — decal design sample 2" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/3.webp" alt="Custom motorsport livery — decal design sample 3" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/3.webp" alt="Custom motorsport livery — decal design sample 3" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/4.webp" alt="Side graphics package — decal design sample 4" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/4.webp" alt="Side graphics package — decal design sample 4" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/5.webp" alt="Two-tone hood and roof wrap — decal design sample 5" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/5.webp" alt="Two-tone hood and roof wrap — decal design sample 5" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/6.webp" alt="Track-inspired number and logo kit — decal design sample 6" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/6.webp" alt="Track-inspired number and logo kit — decal design sample 6" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/7.webp" alt="Minimalist centre stripe — decal design sample 7" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/7.webp" alt="Minimalist centre stripe — decal design sample 7" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/8.webp" alt="Carbon texture door insert decal — design sample 8" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/8.webp" alt="Carbon texture door insert decal — design sample 8" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/9.webp" alt="Desert off-road graphics package — design sample 9" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/9.webp" alt="Desert off-road graphics package — design sample 9" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/10.webp" alt="Sport side stripe with accent colour — design sample 10" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/10.webp" alt="Sport side stripe with accent colour — design sample 10" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/11.webp" alt="Full rear panel graphic — design sample 11" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/11.webp" alt="Full rear panel graphic — design sample 11" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/12.webp" alt="JDM-style angular livery — design sample 12" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/12.webp" alt="JDM-style angular livery — design sample 12" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/13.webp" alt="Aggressive wide-body accent kit — design sample 13" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/13.webp" alt="Aggressive wide-body accent kit — design sample 13" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/14.webp" alt="Single door logo and name decal — design sample 14" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/14.webp" alt="Single door logo and name decal — design sample 14" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/15.webp" alt="OEM-inspired factory stripe — design sample 15" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/15.webp" alt="OEM-inspired factory stripe — design sample 15" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/16.webp" alt="Matte black contrast hood decal — design sample 16" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/16.webp" alt="Matte black contrast hood decal — design sample 16" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/17.webp" alt="Full-length side graphic in dual colour — design sample 17" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/17.webp" alt="Full-length side graphic in dual colour — design sample 17" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/18.webp" alt="Sport lower body rocker decal — design sample 18" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/18.webp" alt="Sport lower body rocker decal — design sample 18" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/19.webp" alt="Custom race number graphic — design sample 19" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/19.webp" alt="Custom race number graphic — design sample 19" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/20.webp" alt="Geometric sharp-line livery — design sample 20" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/20.webp" alt="Geometric sharp-line livery — design sample 20" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/21.webp" alt="Tribal pattern full side wrap — design sample 21" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/21.webp" alt="Tribal pattern full side wrap — design sample 21" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/22.webp" alt="Retro-style pinstripe kit — design sample 22" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/22.webp" alt="Retro-style pinstripe kit — design sample 22" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/23.webp" alt="Supercar-style gold accent stripe — design sample 23" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/23.webp" alt="Supercar-style gold accent stripe — design sample 23" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/24.webp" alt="Military camo accent decal — design sample 24" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/24.webp" alt="Military camo accent decal — design sample 24" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/25.webp" alt="Clean white stripe on dark bodywork — design sample 25" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/25.webp" alt="Clean white stripe on dark bodywork — design sample 25" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/26.webp" alt="Full front bumper graphic — design sample 26" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/26.webp" alt="Full front bumper graphic — design sample 26" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/27.webp" alt="Contour-following side swoosh — design sample 27" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/27.webp" alt="Contour-following side swoosh — design sample 27" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/28.webp" alt="Drift-inspired colourblock livery — design sample 28" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/28.webp" alt="Drift-inspired colourblock livery — design sample 28" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/29.webp" alt="Subtle door edge accent line — design sample 29" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/29.webp" alt="Subtle door edge accent line — design sample 29" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/30.webp" alt="Premium brushed chrome effect decal — design sample 30" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/30.webp" alt="Premium brushed chrome effect decal — design sample 30" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/31.webp" alt="Rally mud-flap and skirt graphics — design sample 31" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/31.webp" alt="Rally mud-flap and skirt graphics — design sample 31" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/32.webp" alt="Bright neon accent stripe — design sample 32" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/32.webp" alt="Bright neon accent stripe — design sample 32" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/33.webp" alt="Wide racing banner side graphic — design sample 33" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/33.webp" alt="Wide racing banner side graphic — design sample 33" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/34.webp" alt="Abstract art full-body wrap concept — design sample 34" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/34.webp" alt="Abstract art full-body wrap concept — design sample 34" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/35.webp" alt="Staggered multi-stripe hood package — design sample 35" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/35.webp" alt="Staggered multi-stripe hood package — design sample 35" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/36.webp" alt="Contrasting A-pillar and mirror caps decal — design sample 36" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/36.webp" alt="Contrasting A-pillar and mirror caps decal — design sample 36" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/37.webp" alt="Coloured brake caliper effect decal — design sample 37" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/37.webp" alt="Coloured brake caliper effect decal — design sample 37" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/38.webp" alt="Low-profile lower side accent graphic — design sample 38" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/38.webp" alt="Low-profile lower side accent graphic — design sample 38" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
         <article class="g-card" role="listitem">
-          <div class="g-photo"><img src="gallery/39.webp" alt="Full motorsport identity kit with numbers and logos — design sample 39" loading="lazy" decoding="async"></div>
+          <div class="g-photo"><img src="gallery/39.webp" alt="Full motorsport identity kit with numbers and logos — design sample 39" loading="lazy" decoding="async" width="1080" height="1080"></div>
           <div class="g-body"><a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a></div>
         </article>
 
@@ -1928,7 +3076,7 @@
     </div>
 
     <div class="g-viewall-wrap">
-      <button class="g-viewall" id="g-viewall" aria-haspopup="dialog">
+      <button class="g-viewall" id="g-viewall" aria-haspopup="dialog" data-event="view_catalog">
         View all 39 styles
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="7" x2="13" y2="7"/><polyline points="8,2 13,7 8,12"/></svg>
       </button>
@@ -1938,7 +3086,7 @@
     <div class="g-cta" data-animate>
       <p>Seen something you like? We'll adapt it to your exact car and send a quote within a few hours.</p>
       <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
-         target="_blank" rel="noopener noreferrer" class="btn btn-gold">
+         target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-event="contact_whatsapp">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
         I want this for my car
       </a>
@@ -1969,7 +3117,7 @@
         <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 1 of 5: Porsche 911 GT3">
           <div class="rev-slide-top">
           <div class="rev-photo">
-            <img src="отзывы/Porsche 911 GT3.webp" alt="Porsche 911 GT3 with custom racing livery by Just Graphics" loading="eager" decoding="async">
+            <img src="отзывы/Porsche 911 GT3.webp" alt="Porsche 911 GT3 with custom racing livery by Just Graphics" loading="eager" decoding="async" width="1254" height="1254">
             <span class="rev-car-tag">Porsche 911 GT3</span>
           </div>
           <div class="rev-text">
@@ -2003,7 +3151,7 @@
         <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 2 of 5: BMW M4">
           <div class="rev-slide-top">
           <div class="rev-photo">
-            <img src="отзывы/BMW M4.webp" alt="BMW M4 with motorsport livery by Just Graphics" loading="lazy" decoding="async">
+            <img src="отзывы/BMW M4.webp" alt="BMW M4 with motorsport livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
             <span class="rev-car-tag">BMW M4</span>
           </div>
           <div class="rev-text">
@@ -2037,7 +3185,7 @@
         <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 3 of 5: Nissan Patrol">
           <div class="rev-slide-top">
           <div class="rev-photo">
-            <img src="отзывы/Nissan Patrol.webp" alt="Nissan Patrol with off-road desert livery by Just Graphics" loading="lazy" decoding="async">
+            <img src="отзывы/Nissan Patrol.webp" alt="Nissan Patrol with off-road desert livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
             <span class="rev-car-tag">Nissan Patrol</span>
           </div>
           <div class="rev-text">
@@ -2071,7 +3219,7 @@
         <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 4 of 5: Toyota Supra">
           <div class="rev-slide-top">
           <div class="rev-photo">
-            <img src="отзывы/Toyota Supra.webp" alt="Toyota Supra with JDM art livery by Just Graphics" loading="lazy" decoding="async">
+            <img src="отзывы/Toyota Supra.webp" alt="Toyota Supra with JDM art livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
             <span class="rev-car-tag">Toyota Supra</span>
           </div>
           <div class="rev-text">
@@ -2105,7 +3253,7 @@
         <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 5 of 5: Nissan 370Z">
           <div class="rev-slide-top">
           <div class="rev-photo">
-            <img src="отзывы/Nissan 370Z.webp" alt="Nissan 370Z with drift-inspired livery by Just Graphics" loading="lazy" decoding="async">
+            <img src="отзывы/Nissan 370Z.webp" alt="Nissan 370Z with drift-inspired livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
             <span class="rev-car-tag">Nissan 370Z</span>
           </div>
           <div class="rev-text">
@@ -2169,7 +3317,7 @@
       <p class="midcta__text">Your car is 3 days away<br>from looking like this.</p>
       <p class="midcta__sub">Send us a photo — we'll send a concept the same day.</p>
       <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
-         target="_blank" rel="noopener noreferrer" class="btn btn-gold">
+         target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-event="contact_whatsapp">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
         Send a photo on WhatsApp
       </a>
@@ -2179,126 +3327,61 @@
 
 
 <!-- ══════════════════════════════════════════
-     7. CASES — before/after sliders
+     LEAD FORM — standalone conversion section
 ══════════════════════════════════════════ -->
-<section class="section section--surface" id="cases" aria-labelledby="cases-title">
+<section class="cta-form" id="get-quote" aria-labelledby="cta-form-title">
   <div class="wrap">
-    <div class="cases-header">
-      <p class="s-eyebrow" data-animate>Case Studies</p>
-      <h2 class="s-title" id="cases-title" data-animate data-animate-delay="1">Real cars. Real results.</h2>
-    </div>
-
-    <div class="cases-outer" role="region" aria-label="Case studies" aria-roledescription="carousel">
-      <div class="cases-track" id="cases-track">
-
-        <!-- ── Case 1: Ford Bronco ── -->
-        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 1 of 3: Ford Bronco">
-          <div class="compare" aria-label="Ford Bronco before and after comparison. Drag to compare.">
-            <div class="compare__before">
-              <img src="Ford Bronco после.webp" alt="Ford Bronco after decals" draggable="false" loading="lazy" decoding="async">
-            </div>
-            <div class="compare__after">
-              <img src="Ford Bronco до.webp" alt="Ford Bronco before decals" draggable="false" loading="lazy" decoding="async">
-            </div>
-            <div class="compare__handle" style="left:50%" aria-hidden="true">
-              <div class="compare__btn">
-                <svg width="20" height="20" aria-hidden="true"><use href="#i-compare"/></svg>
-              </div>
-            </div>
-            <span class="compare__lbl compare__lbl--b">Before</span>
-            <span class="compare__lbl compare__lbl--a">After</span>
-          </div>
-          <div class="case-content">
-            <span class="case-tag">OEM-inspired desert side decals</span>
-            <h3 class="case-title">Ford Bronco</h3>
-            <div class="case-item">
-              <p class="case-item__lbl">Request</p>
-              <p class="case-item__txt">Original Bronco graphics — without the dealer wait.</p>
-            </div>
-            <div class="case-item case-item--result">
-              <p class="case-item__lbl">Result</p>
-              <p class="case-item__txt">Looks like a factory special edition. Off-road character — zero overkill.</p>
-            </div>
-          </div>
+    <div class="cta-form__grid">
+      <div class="cta-form__text" data-animate>
+        <p class="s-eyebrow">Get started</p>
+        <h2 class="cta-form__title" id="cta-form-title">Send us your car — get a concept the same day.</h2>
+        <p class="cta-form__sub">Leave your details and we'll get back to you within 2 hours with a custom concept and quote. No commitment.</p>
+        <div class="cta-form__trust">
+          <span class="cta-form__trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Free consultation
+          </span>
+          <span class="cta-form__trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Reply within 2 hours
+          </span>
+          <span class="cta-form__trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            No obligation
+          </span>
         </div>
-
-        <!-- ── Case 2: Ferrari ── -->
-        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 2 of 3: Ferrari">
-          <div class="compare" aria-label="Ferrari before and after comparison. Drag to compare.">
-            <div class="compare__before">
-              <img src="Ferrari после.webp" alt="Ferrari after gold stripe" draggable="false" loading="lazy" decoding="async" style="object-position: center 30%;">
-            </div>
-            <div class="compare__after">
-              <img src="Ferrari до.webp" alt="Ferrari before stripe" draggable="false" loading="lazy" decoding="async" style="object-position: center 35%;">
-            </div>
-            <div class="compare__handle" style="left:50%" aria-hidden="true">
-              <div class="compare__btn">
-                <svg width="20" height="20" aria-hidden="true"><use href="#i-compare"/></svg>
-              </div>
-            </div>
-            <span class="compare__lbl compare__lbl--b">Before</span>
-            <span class="compare__lbl compare__lbl--a">After</span>
-          </div>
-          <div class="case-content">
-            <span class="case-tag">Yellow center stripe</span>
-            <h3 class="case-title">Ferrari</h3>
-            <div class="case-item">
-              <p class="case-item__lbl">Request</p>
-              <p class="case-item__txt">One detail. Maximum impact.</p>
-            </div>
-            <div class="case-item case-item--result">
-              <p class="case-item__lbl">Result</p>
-              <p class="case-item__txt">Factory Tailor Made finish — not an aftermarket sticker.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── Case 3: Lamborghini ── -->
-        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 3 of 3: Lamborghini">
-          <div class="compare" aria-label="Lamborghini before and after comparison. Drag to compare.">
-            <div class="compare__before">
-              <img src="Race Car после.webp" alt="Lamborghini after race graphics" draggable="false" loading="lazy" decoding="async">
-            </div>
-            <div class="compare__after">
-              <img src="Race Car до.webp" alt="Lamborghini before race graphics" draggable="false" loading="lazy" decoding="async">
-            </div>
-            <div class="compare__handle" style="left:50%" aria-hidden="true">
-              <div class="compare__btn">
-                <svg width="20" height="20" aria-hidden="true"><use href="#i-compare"/></svg>
-              </div>
-            </div>
-            <span class="compare__lbl compare__lbl--b">Before</span>
-            <span class="compare__lbl compare__lbl--a">After</span>
-          </div>
-          <div class="case-content">
-            <span class="case-tag">Race Numbers &amp; Graphics</span>
-            <h3 class="case-title">Lamborghini</h3>
-            <div class="case-item">
-              <p class="case-item__lbl">Request</p>
-              <p class="case-item__txt">Exhibition-ready. No clutter.</p>
-            </div>
-            <div class="case-item case-item--result">
-              <p class="case-item__lbl">Result</p>
-              <p class="case-item__txt">Not just numbers on the doors. A full motorsport identity.</p>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /cases-track -->
-    </div><!-- /cases-outer -->
-
-    <div class="cases-controls">
-      <button class="cases-arrow" id="cases-prev" aria-label="Previous case">
-        <svg width="18" height="18" aria-hidden="true"><use href="#i-left"/></svg>
-      </button>
-      <div class="cases-dots" role="tablist" aria-label="Case indicators" id="cdots">
-        <button class="cdot active" data-idx="0" role="tab" aria-selected="true"  aria-label="Case 1"></button>
-        <button class="cdot"        data-idx="1" role="tab" aria-selected="false" aria-label="Case 2"></button>
-        <button class="cdot"        data-idx="2" role="tab" aria-selected="false" aria-label="Case 3"></button>
       </div>
-      <button class="cases-arrow" id="cases-next" aria-label="Next case">
-        <svg width="18" height="18" aria-hidden="true"><use href="#i-right"/></svg>
-      </button>
+      <div class="cta-form__card" data-animate data-animate-delay="1">
+        <h3 class="cta-form__card-title">Request a Callback</h3>
+        <p class="cta-form__card-sub">We'll call you back to discuss your project</p>
+        <form class="cta-form__fields" id="page-lead-form" novalidate>
+          <div class="cta-form__row">
+            <input class="cta-form__input" type="text" id="plf-name" name="name" placeholder="Your name" required autocomplete="given-name">
+            <input class="cta-form__input" type="tel" id="plf-phone" name="phone" placeholder="+971 50 123 4567" required autocomplete="tel">
+          </div>
+          <input class="cta-form__input" type="text" id="plf-car" name="car" placeholder="Your car (e.g. BMW M4, Patrol...)">
+          <div class="cta-form__actions">
+            <button class="cta-form__submit" type="submit" id="plf-submit" data-event="lead_form">
+              <span class="spinner"></span>
+              <span class="cta-form__submit-text">Request a Callback</span>
+            </button>
+            <span class="cta-form__or">or</span>
+            <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
+               target="_blank" rel="noopener noreferrer" class="cta-form__wa-alt" data-event="contact_whatsapp">
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-wa"/></svg>
+              Write on WhatsApp instead
+            </a>
+          </div>
+        </form>
+        <p class="cta-form__privacy">By submitting, you agree to be contacted about your enquiry. We don't share your data.</p>
+        <div class="cta-form__success" id="plf-success">
+          <div class="cta-form__success-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p class="cta-form__success-title">Request sent!</p>
+          <p class="cta-form__success-text">We'll call you back within 2 hours to discuss your project.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2526,47 +3609,63 @@
     <div class="footer__grid">
 
       <!-- Brand -->
-      <div>
-        <img src="logo.webp" alt="Just Graphics" class="footer__logo-img" width="52" height="52" loading="lazy">
+      <div class="footer__brand">
+        <img src="logo.webp" alt="Just Graphics" class="footer__logo-img" width="48" height="48" loading="lazy">
         <p class="footer__tagline">Premium car decal design, print and installation studio in Dubai.</p>
         <div class="footer__socials" aria-label="Social media links">
           <a href="https://www.instagram.com/just.graphics.dxb/reels/"
              target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">
-            <svg width="16" height="16" aria-hidden="true"><use href="#i-ig"/></svg>
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-ig"/></svg>
           </a>
           <a href="https://www.facebook.com/profile.php?id=61573841871303"
              target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
-            <svg width="16" height="16" aria-hidden="true"><use href="#i-fb"/></svg>
+            <svg width="15" height="15" aria-hidden="true"><use href="#i-fb"/></svg>
           </a>
         </div>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <p class="footer__col-title">Navigate</p>
+        <ul class="footer__nav">
+          <li><a href="#cases">Cases</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#details">How It Works</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#get-quote">Get a Quote</a></li>
+        </ul>
       </div>
 
       <!-- Contact -->
       <div>
         <p class="footer__col-title">Contact</p>
-        <ul class="footer__list">
-          <li>
-            <a href="tel:+971505335004" class="footer__phone-link">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:6px;flex-shrink:0"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>+971 50 533 5004
-            </a>
+        <ul class="footer__contact-list">
+          <li class="footer__contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 010 1.12 2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <a href="tel:+971505335004" class="footer__phone-link" data-event="contact_call">+971 50 533 5004</a>
           </li>
-          <li>Mon–Sat &middot; 9:00–19:00</li>
-          <li>
+          <li class="footer__contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Mon–Sat &middot; 9:00–19:00</span>
+          </li>
+          <li class="footer__contact-item">
+            <svg width="14" height="14" aria-hidden="true"><use href="#i-wa"/></svg>
             <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
                target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </li>
-          <li>
+          <li class="footer__contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <a href="https://www.google.com/maps?q=25.11660859,55.22022249&z=18"
                target="_blank" rel="noopener noreferrer">
-              Warehouse 3, Compound 43, 28B Street<br>
-              Al Quoz Industrial Area 3, Dubai
+              Warehouse 3, Compound 43,<br>28B St, Al Quoz 3, Dubai
             </a>
           </li>
         </ul>
       </div>
 
       <!-- Map -->
-      <div>
+      <div class="footer__map-col">
         <p class="footer__col-title">Studio Location</p>
         <div class="footer__map">
           <iframe
@@ -2576,17 +3675,25 @@
             referrerpolicy="no-referrer-when-downgrade"
             title="Just Graphics studio location in Dubai">
           </iframe>
+          <noscript>
+            <a href="https://www.google.com/maps?q=25.11660859,55.22022249&z=18" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+          </noscript>
         </div>
+        <a href="https://www.google.com/maps?q=25.11660859,55.22022249&z=18"
+           target="_blank" rel="noopener noreferrer"
+           class="footer__map-link">
+          Open in Google Maps &rarr;
+        </a>
       </div>
 
-    </div><!-- /footer__grid -->
+    </div>
 
     <!-- Footer CTA -->
     <div class="footer__cta">
       <p class="footer__cta-text">Ready to transform your car?</p>
       <p class="footer__cta-sub">Send us a message — we reply within 2 hours and send a quote the same day.</p>
       <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
-         target="_blank" rel="noopener noreferrer" class="btn btn-gold">
+         target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-event="contact_whatsapp">
         <svg width="18" height="18" aria-hidden="true"><use href="#i-wa"/></svg>
         Message Us on WhatsApp
       </a>
@@ -2609,6 +3716,52 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
+
+  /* ── Burger menu — immediate (needed for mobile interaction) ── */
+  (function() {
+    var burger   = document.getElementById('burger');
+    var panel    = document.getElementById('menu-panel');
+    var overlay  = document.getElementById('menu-overlay');
+    if (!burger || !panel) return;
+
+    function openMenu() {
+      burger.classList.add('is-active');
+      burger.setAttribute('aria-expanded', 'true');
+      burger.setAttribute('aria-label', 'Close menu');
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('menu-open');
+    }
+    function closeMenu() {
+      burger.classList.remove('is-active');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Open menu');
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('menu-open');
+    }
+
+    burger.addEventListener('click', function() {
+      panel.classList.contains('is-open') ? closeMenu() : openMenu();
+    });
+    overlay.addEventListener('click', closeMenu);
+
+    // Close on anchor click + smooth scroll offset
+    panel.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        closeMenu();
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && panel.classList.contains('is-open')) closeMenu();
+    });
+  })();
 
   /* ── Everything else deferred until browser is idle ── */
   const initApp = () => {
@@ -2663,35 +3816,135 @@
 
   /* ── Catalog modal ───────────────────────── */
   (function () {
-    const modal       = document.getElementById('catalog-modal');
-    const grid        = document.getElementById('catalog-grid');
-    const closeBtn    = document.getElementById('catalog-close');
-    const openBtn     = document.getElementById('g-viewall');
-    const WA = 'https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0';
+    const modal    = document.getElementById('catalog-modal');
+    const grid     = document.getElementById('catalog-grid');
+    const closeBtn = document.getElementById('catalog-close');
+    const openBtn  = document.getElementById('g-viewall');
+    const filters  = document.getElementById('catalog-filters');
+    const WA = 'https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I+want+Racing+Livery+%23';
     let built = false;
     let savedY = 0;
 
+    const DATA = [
+      {n:1,  s:'S',m:3, p:3000, old:4200},
+      {n:2,  s:'L',m:7, p:4000, old:5600},
+      {n:3,  s:'M',m:6, p:3500, old:4900},
+      {n:4,  s:'L',m:7, p:4000, old:5600},
+      {n:5,  s:'M',m:5, p:3250, old:4550},
+      {n:6,  s:'M',m:5, p:3250, old:4550},
+      {n:7,  s:'L',m:7, p:4000, old:5600},
+      {n:8,  s:'M',m:5, p:3250, old:4550},
+      {n:9,  s:'M',m:5, p:3250, old:4550},
+      {n:10, s:'M',m:5, p:3250, old:4550},
+      {n:11, s:'M',m:5, p:3250, old:4550},
+      {n:12, s:'M',m:5, p:3250, old:4550},
+      {n:13, s:'M',m:5, p:3250, old:4550},
+      {n:14, s:'M',m:6, p:3500, old:4900},
+      {n:15, s:'M',m:5, p:3250, old:4550},
+      {n:16, s:'M',m:5, p:3250, old:4550},
+      {n:17, s:'M',m:6, p:3500, old:4900},
+      {n:18, s:'M',m:6, p:3500, old:4900},
+      {n:19, s:'L',m:7, p:4000, old:5600},
+      {n:20, s:'M',m:6, p:3500, old:4900},
+      {n:21, s:'M',m:5, p:3250, old:4550},
+      {n:22, s:'M',m:5, p:3250, old:4550},
+      {n:23, s:'L',m:7, p:4000, old:5600},
+      {n:24, s:'L',m:7, p:4000, old:5600},
+      {n:25, s:'S',m:3, p:3000, old:4200},
+      {n:26, s:'M',m:5, p:3250, old:4550},
+      {n:27, s:'S',m:4, p:3000, old:4200},
+      {n:28, s:'L',m:7, p:4000, old:5600},
+      {n:29, s:'M',m:5, p:3250, old:4550},
+      {n:30, s:'M',m:6, p:3500, old:4900},
+      {n:31, s:'S',m:3, p:3000, old:4200},
+      {n:32, s:'M',m:5, p:3250, old:4550},
+      {n:33, s:'L',m:8, p:4250, old:5950},
+      {n:34, s:'M',m:5, p:3250, old:4550},
+      {n:35, s:'L',m:8, p:4250, old:5950},
+      {n:36, s:'L',m:7, p:4000, old:5600},
+      {n:37, s:'M',m:5, p:3250, old:4550},
+      {n:38, s:'S',m:4, p:3000, old:4200},
+      {n:39, s:'M',m:5, p:3250, old:4550}
+    ];
+
+    function fmt(v) { return v.toLocaleString('en-US'); }
+
     function buildGrid() {
       if (built) return;
-      for (let i = 1; i <= 39; i++) {
-        const card = document.createElement('article');
+      DATA.forEach(function(d) {
+        var card = document.createElement('article');
         card.className = 'catalog-card';
+        card.dataset.size = d.s;
         card.innerHTML =
           '<div class="catalog-photo">' +
-            '<img src="gallery/' + i + '.webp" alt="Car decal by Just Graphics" loading="eager" decoding="async">' +
+            '<span class="catalog-size catalog-size--' + d.s.toLowerCase() + '">' + d.s + ' · ' + d.m + 'm</span>' +
+            '<span class="catalog-discount">−40%</span>' +
+            '<img src="gallery/' + d.n + '.webp" alt="Racing Livery ' + d.n + ' by Just Graphics" loading="eager" decoding="async" width="1080" height="1080">' +
           '</div>' +
-          '<a href="' + WA + '" target="_blank" rel="noopener noreferrer" class="btn btn-gold">I want this style</a>';
+          '<div class="catalog-info">' +
+            '<div class="catalog-info__top">' +
+              '<span class="catalog-name">Racing Livery #' + d.n + '</span>' +
+              '<span class="catalog-meters">' + d.m + ' m</span>' +
+            '</div>' +
+            '<div class="catalog-price-row">' +
+              '<span class="catalog-price">' + fmt(d.p) + ' AED</span>' +
+              '<span class="catalog-price-old">' + fmt(d.old) + '</span>' +
+            '</div>' +
+            '<div class="catalog-price-label">with print &amp; installation</div>' +
+          '</div>' +
+          '<button type="button" class="btn catalog-order-btn" data-livery="' + d.n + '" data-price="' + fmt(d.p) + '">' +
+            'Order this livery' +
+          '</button>';
         grid.appendChild(card);
-      }
+      });
       built = true;
     }
+
+    function staggerIn() {
+      var cards = grid.querySelectorAll('.catalog-card:not(.card-hidden)');
+      cards.forEach(function(c, i) {
+        c.classList.remove('card-visible');
+        c.offsetHeight;
+        setTimeout(function() { c.classList.add('card-visible'); }, 30 + i * 35);
+      });
+    }
+
+    function applyFilter(size) {
+      var cards = grid.querySelectorAll('.catalog-card');
+      cards.forEach(function(c) {
+        if (size === 'all' || c.dataset.size === size) {
+          c.classList.remove('card-hidden', 'card-visible');
+        } else {
+          c.classList.add('card-hidden');
+          c.classList.remove('card-visible');
+        }
+      });
+      staggerIn();
+    }
+
+    filters.addEventListener('click', function(e) {
+      var btn = e.target.closest('.catalog-filter');
+      if (!btn) return;
+      filters.querySelectorAll('.catalog-filter').forEach(function(f) {
+        f.classList.remove('active');
+        f.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      applyFilter(btn.dataset.filter);
+    });
 
     function open() {
       buildGrid();
       savedY = window.scrollY;
       document.documentElement.style.overflow = 'hidden';
       modal.removeAttribute('hidden');
-      requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('is-open')));
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          modal.classList.add('is-open');
+          staggerIn();
+        });
+      });
       closeBtn.focus();
     }
 
@@ -2709,6 +3962,127 @@
     closeBtn.addEventListener('click', close);
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+    });
+
+    /* ── Lead form panel ── */
+    var panel     = document.getElementById('lead-panel');
+    var form      = document.getElementById('lead-form');
+    var thumb     = document.getElementById('lead-thumb');
+    var lTitle    = document.getElementById('lead-title');
+    var lSubtitle = document.getElementById('lead-subtitle');
+    var lLivery   = document.getElementById('lead-livery');
+    var lSuccess  = document.getElementById('lead-success');
+    var lSubmit   = document.getElementById('lead-submit');
+    var lClose    = document.getElementById('lead-close');
+    var lGeneral  = document.getElementById('lead-open-general');
+
+    function openLead(liveryNum, price) {
+      lSuccess.classList.remove('is-visible');
+      form.style.display = '';
+      document.querySelector('.lead-privacy').style.display = '';
+      form.querySelectorAll('.has-error').forEach(function(el) { el.classList.remove('has-error'); });
+
+      if (liveryNum) {
+        lLivery.value = liveryNum;
+        thumb.src = 'gallery/' + liveryNum + '.webp';
+        thumb.classList.remove('hidden');
+        lTitle.textContent = 'Racing Livery #' + liveryNum;
+        lSubtitle.textContent = (price ? price + ' AED · ' : '') + 'We\'ll contact you within 2 hours';
+      } else {
+        lLivery.value = '';
+        thumb.classList.add('hidden');
+        lTitle.textContent = 'Help me choose a livery';
+        lSubtitle.textContent = 'Tell us your car — we\'ll recommend the best style';
+      }
+      panel.classList.add('is-open');
+      setTimeout(function() { document.getElementById('lead-name').focus(); }, 350);
+    }
+
+    function closeLead() {
+      panel.classList.remove('is-open');
+    }
+
+    grid.addEventListener('click', function(e) {
+      var btn = e.target.closest('.catalog-order-btn');
+      if (!btn) return;
+      e.preventDefault();
+      openLead(btn.dataset.livery, btn.dataset.price);
+    });
+
+    lGeneral.addEventListener('click', function() { openLead(null); });
+    lClose.addEventListener('click', closeLead);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name  = document.getElementById('lead-name');
+      var phone = document.getElementById('lead-phone');
+      var car   = document.getElementById('lead-car');
+      var valid = true;
+
+      [name, phone, car].forEach(function(f) {
+        f.classList.remove('has-error');
+        if (!f.value.trim()) { f.classList.add('has-error'); valid = false; }
+      });
+      if (!valid) return;
+
+      lSubmit.disabled = true;
+      lSubmit.classList.add('loading');
+
+      var payload = {
+        name: name.value.trim(),
+        phone: phone.value.trim(),
+        car: car.value.trim(),
+        livery: lLivery.value || 'Not specified'
+      };
+
+      /* ── Bitrix CRM webhook placeholder ──
+         Replace BITRIX_WEBHOOK_URL with your actual webhook, e.g.:
+         https://your-domain.bitrix24.com/rest/1/YOUR_KEY/crm.lead.add.json
+
+         The fetch body for Bitrix would look like:
+         {
+           fields: {
+             TITLE: 'Livery enquiry — ' + payload.car,
+             NAME: payload.name,
+             PHONE: [{ VALUE: payload.phone, VALUE_TYPE: 'WORK' }],
+             COMMENTS: 'Car: ' + payload.car + '\nLivery: Racing Livery #' + payload.livery,
+             SOURCE_ID: 'WEB'
+           }
+         }
+      */
+      var BITRIX_WEBHOOK_URL = ''; // TODO: paste your Bitrix24 webhook URL here
+
+      function onSuccess() {
+        lSubmit.disabled = false;
+        lSubmit.classList.remove('loading');
+        form.style.display = 'none';
+        document.querySelector('.lead-privacy').style.display = 'none';
+        lSuccess.classList.add('is-visible');
+        form.reset();
+      }
+
+      if (BITRIX_WEBHOOK_URL) {
+        fetch(BITRIX_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fields: {
+              TITLE: 'Livery enquiry — ' + payload.car,
+              NAME: payload.name,
+              PHONE: [{ VALUE: payload.phone, VALUE_TYPE: 'WORK' }],
+              COMMENTS: 'Car: ' + payload.car + '\\nLivery: ' + (payload.livery !== 'Not specified' ? 'Racing Livery #' + payload.livery : 'Help me choose'),
+              SOURCE_ID: 'WEB'
+            }
+          })
+        }).then(onSuccess).catch(function() {
+          lSubmit.disabled = false;
+          lSubmit.classList.remove('loading');
+          alert('Something went wrong. Please try again or call us at +971 50 533 5004.');
+        });
+      } else {
+        console.log('[Lead form stub] Payload:', JSON.stringify(payload, null, 2));
+        setTimeout(onSuccess, 800);
+      }
     });
   })();
 
@@ -2895,6 +4269,99 @@
     });
   });
 
+  /* ── Page lead form ──────────────────── */
+  (function () {
+    const form    = document.getElementById('page-lead-form');
+    const submit  = document.getElementById('plf-submit');
+    const success = document.getElementById('plf-success');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name  = document.getElementById('plf-name');
+      const phone = document.getElementById('plf-phone');
+      const car   = document.getElementById('plf-car');
+      let valid = true;
+
+      [name, phone].forEach(function (f) {
+        f.classList.remove('has-error');
+        if (!f.value.trim()) { f.classList.add('has-error'); valid = false; }
+      });
+      if (!valid) return;
+
+      submit.disabled = true;
+      submit.classList.add('loading');
+
+      const payload = {
+        name: name.value.trim(),
+        phone: phone.value.trim(),
+        car: car.value.trim() || 'Not specified',
+        source: 'page_lead_form'
+      };
+
+      console.log('[Page lead form] Payload:', JSON.stringify(payload, null, 2));
+
+      setTimeout(function () {
+        submit.disabled = false;
+        submit.classList.remove('loading');
+        form.style.display = 'none';
+        form.closest('.cta-form__card').querySelector('.cta-form__privacy').style.display = 'none';
+        success.classList.add('is-visible');
+        form.reset();
+      }, 800);
+    });
+  })();
+
+  /* ── Sticky mobile CTA bar ─────────── */
+  (function () {
+    const bar     = document.getElementById('mobile-cta');
+    const hero    = document.getElementById('hero');
+    const waFloat = document.querySelector('.wa-float');
+    if (!bar || !hero) return;
+
+    let ticking  = false;
+    let barShown = false;
+
+    function update() {
+      const y = window.scrollY;
+      const heroBottom = hero.offsetTop + hero.offsetHeight;
+      const pastHero = y > heroBottom - 200;
+
+      if (pastHero && !barShown) {
+        bar.classList.add('is-visible');
+        if (waFloat) waFloat.classList.add('bar-active');
+        barShown = true;
+      } else if (!pastHero && barShown) {
+        bar.classList.remove('is-visible');
+        if (waFloat) waFloat.classList.remove('bar-active');
+        barShown = false;
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+  })();
+
+  /* ── Data-event Pixel helper ───────── */
+  document.addEventListener('click', function (e) {
+    const el = e.target.closest('[data-event]');
+    if (!el) return;
+    const event = el.dataset.event;
+    if (typeof fbq === 'function') {
+      var eventMap = {
+        'contact_whatsapp': 'Contact',
+        'contact_call':     'Contact',
+        'lead_form':        'Lead',
+        'view_catalog':     'ViewContent',
+        'cta_see_work':     'ViewContent',
+        'cta_gallery':      'ViewContent'
+      };
+      fbq('track', eventMap[event] || 'Lead', { content_name: event });
+    }
+  });
+
   }; /* end initApp */
 
   /* Run when browser is idle; fallback to 200ms timeout */
@@ -2909,8 +4376,14 @@
 <div class="catalog-modal" id="catalog-modal" role="dialog" aria-modal="true" aria-label="Full styles catalog" hidden>
   <div class="catalog-head">
     <div class="catalog-head-left">
-      <span class="catalog-title">All styles</span>
-      <span class="catalog-count">39 designs</span>
+      <span class="catalog-title">Racing Liveries</span>
+      <span class="catalog-sale-badge">−40% off</span>
+    </div>
+    <div class="catalog-filters" id="catalog-filters" role="tablist" aria-label="Filter by size">
+      <button class="catalog-filter active" data-filter="all" role="tab" aria-selected="true">All <span class="catalog-filter__count">39</span></button>
+      <button class="catalog-filter" data-filter="S" role="tab" aria-selected="false">S <span class="catalog-filter__count">5</span></button>
+      <button class="catalog-filter" data-filter="M" role="tab" aria-selected="false">M <span class="catalog-filter__count">22</span></button>
+      <button class="catalog-filter" data-filter="L" role="tab" aria-selected="false">L <span class="catalog-filter__count">12</span></button>
     </div>
     <button class="catalog-close" id="catalog-close" aria-label="Close catalog">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/></svg>
@@ -2919,15 +4392,79 @@
   <div class="catalog-body" id="catalog-body">
     <div class="catalog-grid" id="catalog-grid"></div>
   </div>
+  <div class="catalog-foot">
+    <p class="catalog-foot__text"><strong>Can't decide?</strong> Leave your details — we'll recommend the best style for your car</p>
+    <button class="btn btn-gold" id="lead-open-general" type="button">
+      Get a recommendation
+    </button>
+  </div>
+  <div class="lead-panel" id="lead-panel">
+    <div class="lead-panel__inner">
+      <div class="lead-panel__head">
+        <div class="lead-panel__preview">
+          <img class="lead-panel__thumb hidden" id="lead-thumb" src="" alt="">
+          <div>
+            <div class="lead-panel__title" id="lead-title">Get a recommendation</div>
+            <div class="lead-panel__subtitle" id="lead-subtitle">We'll contact you within 2 hours</div>
+          </div>
+        </div>
+        <button class="lead-panel__close" id="lead-close" type="button" aria-label="Close form">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+        </button>
+      </div>
+      <form class="lead-form" id="lead-form" novalidate>
+        <input type="hidden" name="livery" id="lead-livery" value="">
+        <div class="lead-field">
+          <label class="lead-field__label" for="lead-name">Your name</label>
+          <input class="lead-field__input" type="text" id="lead-name" name="name" placeholder="John" required autocomplete="given-name">
+        </div>
+        <div class="lead-field">
+          <label class="lead-field__label" for="lead-phone">Phone</label>
+          <input class="lead-field__input" type="tel" id="lead-phone" name="phone" placeholder="+971 50 123 4567" required autocomplete="tel">
+        </div>
+        <div class="lead-field">
+          <label class="lead-field__label" for="lead-car">Your car</label>
+          <input class="lead-field__input" type="text" id="lead-car" name="car" placeholder="e.g. BMW M4, Patrol..." required>
+        </div>
+        <button class="lead-submit" type="submit" id="lead-submit">
+          <span class="spinner"></span>
+          <span class="lead-submit__text">Send request</span>
+        </button>
+      </form>
+      <p class="lead-privacy">By submitting, you agree to be contacted about your enquiry. We don't share your data.</p>
+      <div class="lead-success" id="lead-success">
+        <div class="lead-success__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p class="lead-success__title">Request sent!</p>
+        <p class="lead-success__text">We'll get back to you within 2 hours with the best options for your car.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ── Floating WhatsApp button ──────────── -->
 <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
    target="_blank" rel="noopener noreferrer"
    class="wa-float"
-   aria-label="Contact us on WhatsApp">
+   aria-label="Contact us on WhatsApp"
+   data-event="contact_whatsapp">
   <svg width="26" height="26" aria-hidden="true"><use href="#i-wa"/></svg>
 </a>
+
+<!-- ── Sticky mobile CTA bar ──────────── -->
+<div class="mobile-cta" id="mobile-cta" aria-label="Quick contact">
+  <a href="https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I%27d+like+a+free+quote+for+my+car&type=phone_number&app_absent=0"
+     target="_blank" rel="noopener noreferrer"
+     class="mobile-cta__btn mobile-cta__btn--wa" data-event="contact_whatsapp">
+    <svg width="16" height="16" aria-hidden="true"><use href="#i-wa"/></svg>
+    WhatsApp
+  </a>
+  <a href="tel:+971505335004" class="mobile-cta__btn mobile-cta__btn--call" data-event="contact_call">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Call Now
+  </a>
+</div>
 
 </body>
 </html>
