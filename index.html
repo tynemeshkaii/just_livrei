@@ -6,19 +6,64 @@
   <title>Just Graphics — Premium Car Decal Studio in Dubai</title>
   <meta name="description" content="Custom & ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done. Get a free consultation today.">
   <meta name="theme-color" content="#0A0A09">
+  <link rel="canonical" href="https://justgraphics.ae/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://justgraphics.ae/">
   <meta property="og:title" content="Just Graphics — Premium Car Decal Studio in Dubai">
   <meta property="og:description" content="Custom & ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done.">
-  <meta property="og:image" content="Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+  <meta property="og:image" content="https://justgraphics.ae/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+  <meta property="og:image:alt" content="Ferrari with a premium gold stripe by Just Graphics in Dubai">
   <meta property="og:locale" content="en_AE">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Just Graphics — Premium Car Decal Studio in Dubai">
   <meta name="twitter:description" content="Custom & ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done.">
-  <meta name="twitter:image" content="Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+  <meta name="twitter:image" content="https://justgraphics.ae/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "AutomotiveBusiness"],
+    "@id": "https://justgraphics.ae/#business",
+    "name": "Just Graphics",
+    "url": "https://justgraphics.ae/",
+    "image": "https://justgraphics.ae/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp",
+    "logo": "https://justgraphics.ae/logo.webp",
+    "description": "Premium car decal design, print and installation studio in Dubai.",
+    "telephone": "+971505335004",
+    "priceRange": "AED 290+",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Warehouse 3, Compound 43, 28B Street, Al Quoz Industrial Area 3",
+      "addressLocality": "Dubai",
+      "addressCountry": "AE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 25.11660859,
+      "longitude": 55.22022249
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/just.graphics.dxb/reels/",
+      "https://www.facebook.com/profile.php?id=61573841871303"
+    ],
+    "areaServed": {
+      "@type": "City",
+      "name": "Dubai"
+    }
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,6 +131,7 @@
     a { color: inherit; text-decoration: none; }
     button { font-family: var(--font); cursor: pointer; }
     img { display: block; max-width: 100%; }
+    [inert] { pointer-events: none; }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -476,8 +522,16 @@
     }
     @media (max-width: 767px) {
       .hero__photo { width: 100%; left: 0; }
-      .hero__photo img { filter: brightness(0.44) saturate(0.68) contrast(1.04); }
-      .hero__photo::after { background: linear-gradient(to bottom, rgba(5,5,5,0.72) 0%, rgba(5,5,5,0.50) 55%, rgba(5,5,5,0.28) 100%); }
+      .hero__photo img {
+        filter: brightness(0.56) saturate(0.82) contrast(1.05);
+        object-position: 54% 46%;
+      }
+      .hero__photo::after {
+        background:
+          radial-gradient(ellipse 58% 42% at 64% 61%, rgba(255,255,255,0.08) 0%, rgba(196,164,93,0.045) 34%, transparent 68%),
+          linear-gradient(to bottom, rgba(5,5,5,0.74) 0%, rgba(5,5,5,0.50) 46%, rgba(5,5,5,0.20) 100%),
+          linear-gradient(to right, rgba(5,5,5,0.72) 0%, rgba(5,5,5,0.32) 54%, rgba(5,5,5,0.12) 100%);
+      }
     }
 
     /* Ambient glow + dot grid */
@@ -2649,12 +2703,12 @@
 
 <!-- ── Mobile slide-in menu ── -->
 <div class="menu-overlay" id="menu-overlay" aria-hidden="true"></div>
-<nav class="menu-panel" id="menu-panel" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+<nav class="menu-panel" id="menu-panel" role="navigation" aria-label="Mobile navigation" aria-hidden="true" inert>
   <ul class="menu-nav">
     <li class="menu-nav__item"><a href="#cases"     class="menu-nav__link"><span class="menu-nav__num">01</span>Cases</a></li>
     <li class="menu-nav__item"><a href="#gallery"    class="menu-nav__link"><span class="menu-nav__num">02</span>Gallery</a></li>
     <li class="menu-nav__item"><a href="#reviews"    class="menu-nav__link"><span class="menu-nav__num">03</span>Reviews</a></li>
-    <li class="menu-nav__item"><a href="#details"    class="menu-nav__link"><span class="menu-nav__num">04</span>How It Works</a></li>
+    <li class="menu-nav__item"><a href="#details"    class="menu-nav__link"><span class="menu-nav__num">04</span>Design Details</a></li>
     <li class="menu-nav__item"><a href="#why-us"     class="menu-nav__link"><span class="menu-nav__num">05</span>Why Us</a></li>
     <li class="menu-nav__item"><a href="#faq"        class="menu-nav__link"><span class="menu-nav__num">06</span>FAQ</a></li>
     <li class="menu-nav__item"><a href="#process"    class="menu-nav__link"><span class="menu-nav__num">07</span>Process</a></li>
@@ -2766,7 +2820,7 @@
         </div>
 
         <!-- ── Case 2: Ferrari ── -->
-        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 2 of 3: Ferrari">
+        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 2 of 3: Ferrari" aria-hidden="true" inert>
           <div class="compare" aria-label="Ferrari before and after comparison. Drag to compare.">
             <div class="compare__before">
               <img src="Ferrari после.webp" alt="Ferrari after gold stripe" draggable="false" loading="lazy" decoding="async" width="1254" height="1254" style="object-position: center 30%;">
@@ -2797,7 +2851,7 @@
         </div>
 
         <!-- ── Case 3: Lamborghini ── -->
-        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 3 of 3: Lamborghini">
+        <div class="case-slide" role="group" aria-roledescription="slide" aria-label="Case 3 of 3: Lamborghini" aria-hidden="true" inert>
           <div class="compare" aria-label="Lamborghini before and after comparison. Drag to compare.">
             <div class="compare__before">
               <img src="Race Car после.webp" alt="Lamborghini after race graphics" draggable="false" loading="lazy" decoding="async" width="878" height="1472">
@@ -3076,7 +3130,7 @@
     </div>
 
     <div class="g-viewall-wrap">
-      <button class="g-viewall" id="g-viewall" aria-haspopup="dialog" data-event="view_catalog">
+      <button class="g-viewall" id="g-viewall" aria-haspopup="dialog" aria-expanded="false" aria-controls="catalog-modal" data-event="view_catalog">
         View all 39 styles
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="7" x2="13" y2="7"/><polyline points="8,2 13,7 8,12"/></svg>
       </button>
@@ -3148,7 +3202,7 @@
         </article>
 
         <!-- Review 2: BMW M4 -->
-        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 2 of 5: BMW M4">
+        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 2 of 5: BMW M4" aria-hidden="true" inert>
           <div class="rev-slide-top">
           <div class="rev-photo">
             <img src="отзывы/BMW M4.webp" alt="BMW M4 with motorsport livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
@@ -3182,7 +3236,7 @@
         </article>
 
         <!-- Review 3: Nissan Patrol -->
-        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 3 of 5: Nissan Patrol">
+        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 3 of 5: Nissan Patrol" aria-hidden="true" inert>
           <div class="rev-slide-top">
           <div class="rev-photo">
             <img src="отзывы/Nissan Patrol.webp" alt="Nissan Patrol with off-road desert livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
@@ -3216,7 +3270,7 @@
         </article>
 
         <!-- Review 4: Toyota Supra -->
-        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 4 of 5: Toyota Supra">
+        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 4 of 5: Toyota Supra" aria-hidden="true" inert>
           <div class="rev-slide-top">
           <div class="rev-photo">
             <img src="отзывы/Toyota Supra.webp" alt="Toyota Supra with JDM art livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
@@ -3250,7 +3304,7 @@
         </article>
 
         <!-- Review 5: Nissan 370Z -->
-        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 5 of 5: Nissan 370Z">
+        <article class="rev-slide" role="group" aria-roledescription="slide" aria-label="Review 5 of 5: Nissan 370Z" aria-hidden="true" inert>
           <div class="rev-slide-top">
           <div class="rev-photo">
             <img src="отзывы/Nissan 370Z.webp" alt="Nissan 370Z with drift-inspired livery by Just Graphics" loading="lazy" decoding="async" width="1254" height="1254">
@@ -3476,7 +3530,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a1" role="region">
+        <div class="faq-a-wrap" id="faq-a1" role="region" aria-hidden="true">
           <div class="faq-a"><p>No. All materials we use are premium removable vinyl. When professionally removed, they leave no marks, residue or damage to the factory paint — even after years of use. We also inspect your paintwork condition before installation.</p></div>
         </div>
       </div>
@@ -3488,7 +3542,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a2" role="region">
+        <div class="faq-a-wrap" id="faq-a2" role="region" aria-hidden="true">
           <div class="faq-a"><p>Prices start from AED 290 for single decals and AED 450 for full stripe kits. Custom full-body projects start from AED 1,200. Every quote is individual — send us your idea on WhatsApp and we'll get back to you within a few hours.</p></div>
         </div>
       </div>
@@ -3500,7 +3554,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a3" role="region">
+        <div class="faq-a-wrap" id="faq-a3" role="region" aria-hidden="true">
           <div class="faq-a"><p>Most projects are completed within 1 to 3 days. Simple decal sets can be done same-day. Complex full-body graphics or custom projects take up to 3 working days. You'll know the exact timeline before we start.</p></div>
         </div>
       </div>
@@ -3512,7 +3566,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a7" role="region">
+        <div class="faq-a-wrap" id="faq-a7" role="region" aria-hidden="true">
           <div class="faq-a"><p>Yes. All work is done at our studio in Al Quoz Industrial Area 3, Dubai — Warehouse 3, Compound 43, 28B Street. This gives us full control over the installation environment and quality. Bring your car, we take care of everything from there. Most clients are in and out within one day.</p></div>
         </div>
       </div>
@@ -3524,7 +3578,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a4" role="region">
+        <div class="faq-a-wrap" id="faq-a4" role="region" aria-hidden="true">
           <div class="faq-a"><p>Yes. We work on all car types — from everyday cars to Ferrari, Lamborghini, Ford Bronco and Land Cruiser. Every design is adapted to your specific car's body shape, curves, panel layout and color before we print.</p></div>
         </div>
       </div>
@@ -3536,7 +3590,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a5" role="region">
+        <div class="faq-a-wrap" id="faq-a5" role="region" aria-hidden="true">
           <div class="faq-a"><p>Yes. We handle the design in-house. Describe your idea, bring a photo reference, or simply tell us the style — we'll prepare the full concept and show it to you before we print a single centimetre.</p></div>
         </div>
       </div>
@@ -3548,7 +3602,7 @@
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
           </span>
         </button>
-        <div class="faq-a-wrap" id="faq-a6" role="region">
+        <div class="faq-a-wrap" id="faq-a6" role="region" aria-hidden="true">
           <div class="faq-a"><p>Yes. We can support the RTA approval process for commercial branding and graphics when required. Just mention it when you get in touch and we'll guide you through it.</p></div>
         </div>
       </div>
@@ -3631,7 +3685,8 @@
           <li><a href="#cases">Cases</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#details">How It Works</a></li>
+          <li><a href="#details">Design Details</a></li>
+          <li><a href="#process">Process</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#get-quote">Get a Quote</a></li>
         </ul>
@@ -3723,6 +3778,7 @@
     var panel    = document.getElementById('menu-panel');
     var overlay  = document.getElementById('menu-overlay');
     if (!burger || !panel) return;
+    var focusableSel = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     function openMenu() {
       burger.classList.add('is-active');
@@ -3730,9 +3786,12 @@
       burger.setAttribute('aria-label', 'Close menu');
       panel.classList.add('is-open');
       panel.setAttribute('aria-hidden', 'false');
+      panel.removeAttribute('inert');
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('menu-open');
+      var first = panel.querySelector(focusableSel);
+      if (first) first.focus();
     }
     function closeMenu() {
       burger.classList.remove('is-active');
@@ -3740,9 +3799,11 @@
       burger.setAttribute('aria-label', 'Open menu');
       panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
       overlay.classList.remove('is-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('menu-open');
+      burger.focus();
     }
 
     burger.addEventListener('click', function() {
@@ -3759,7 +3820,23 @@
 
     // Close on Escape key
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && panel.classList.contains('is-open')) closeMenu();
+      if (!panel.classList.contains('is-open')) return;
+      if (e.key === 'Escape') {
+        closeMenu();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      var focusable = Array.prototype.slice.call(panel.querySelectorAll(focusableSel));
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   })();
 
@@ -3821,9 +3898,11 @@
     const closeBtn = document.getElementById('catalog-close');
     const openBtn  = document.getElementById('g-viewall');
     const filters  = document.getElementById('catalog-filters');
-    const WA = 'https://api.whatsapp.com/send/?phone=971505335004&text=Hi%2C+I+want+Racing+Livery+%23';
+    const body      = document.getElementById('catalog-body');
+    const focusableSel = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
     let built = false;
     let savedY = 0;
+    let imageObserver = null;
 
     const DATA = [
       {n:1,  s:'S',m:3, p:3000, old:4200},
@@ -3869,6 +3948,39 @@
 
     function fmt(v) { return v.toLocaleString('en-US'); }
 
+    function setPageInert(active) {
+      Array.prototype.forEach.call(document.body.children, function(child) {
+        if (child === modal) return;
+        if (active) child.setAttribute('inert', '');
+        else child.removeAttribute('inert');
+      });
+    }
+
+    function loadCatalogImage(img) {
+      if (!img || img.dataset.loaded === 'true') return;
+      img.src = img.dataset.src;
+      img.dataset.loaded = 'true';
+    }
+
+    function observeCatalogImage(img) {
+      if (!imageObserver) {
+        imageObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            loadCatalogImage(entry.target);
+            imageObserver.unobserve(entry.target);
+          });
+        }, { root: body, rootMargin: '420px 0px', threshold: 0.01 });
+      }
+      imageObserver.observe(img);
+    }
+
+    function hydrateVisibleCatalogImages() {
+      grid.querySelectorAll('.catalog-card:not(.card-hidden) img[data-src]:not([src])').forEach(function(img) {
+        observeCatalogImage(img);
+      });
+    }
+
     function buildGrid() {
       if (built) return;
       DATA.forEach(function(d) {
@@ -3879,7 +3991,7 @@
           '<div class="catalog-photo">' +
             '<span class="catalog-size catalog-size--' + d.s.toLowerCase() + '">' + d.s + ' · ' + d.m + 'm</span>' +
             '<span class="catalog-discount">−40%</span>' +
-            '<img src="gallery/' + d.n + '.webp" alt="Racing Livery ' + d.n + ' by Just Graphics" loading="eager" decoding="async" width="1080" height="1080">' +
+            '<img data-src="gallery/' + d.n + '.webp" alt="Racing Livery ' + d.n + ' by Just Graphics" loading="lazy" decoding="async" width="1080" height="1080">' +
           '</div>' +
           '<div class="catalog-info">' +
             '<div class="catalog-info__top">' +
@@ -3898,6 +4010,7 @@
         grid.appendChild(card);
       });
       built = true;
+      hydrateVisibleCatalogImages();
     }
 
     function staggerIn() {
@@ -3919,6 +4032,7 @@
           c.classList.remove('card-visible');
         }
       });
+      hydrateVisibleCatalogImages();
       staggerIn();
     }
 
@@ -3937,24 +4051,33 @@
     function open() {
       buildGrid();
       savedY = window.scrollY;
+      setPageInert(true);
       document.documentElement.style.overflow = 'hidden';
       modal.removeAttribute('hidden');
+      modal.removeAttribute('inert');
+      openBtn.setAttribute('aria-expanded', 'true');
       requestAnimationFrame(function() {
         requestAnimationFrame(function() {
           modal.classList.add('is-open');
           staggerIn();
+          closeBtn.focus({ preventScroll: true });
+          setTimeout(function() { closeBtn.focus({ preventScroll: true }); }, 80);
         });
       });
-      closeBtn.focus();
     }
 
     function close() {
+      closeLead();
       modal.classList.remove('is-open');
+      modal.setAttribute('inert', '');
+      openBtn.setAttribute('aria-expanded', 'false');
       modal.addEventListener('transitionend', function handler() {
         modal.setAttribute('hidden', '');
         document.documentElement.style.overflow = '';
+        setPageInert(false);
         window.scrollTo(0, savedY);
         modal.removeEventListener('transitionend', handler);
+        openBtn.focus();
       });
     }
 
@@ -3962,6 +4085,22 @@
     closeBtn.addEventListener('click', close);
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+    });
+    modal.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
+      var focusable = Array.prototype.slice.call(modal.querySelectorAll(focusableSel)).filter(function(el) {
+        return el.offsetParent !== null;
+      });
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     /* ── Lead form panel ── */
@@ -3995,11 +4134,13 @@
         lSubtitle.textContent = 'Tell us your car — we\'ll recommend the best style';
       }
       panel.classList.add('is-open');
+      panel.removeAttribute('inert');
       setTimeout(function() { document.getElementById('lead-name').focus(); }, 350);
     }
 
     function closeLead() {
       panel.classList.remove('is-open');
+      panel.setAttribute('inert', '');
     }
 
     grid.addEventListener('click', function(e) {
@@ -4092,6 +4233,7 @@
     const dots  = document.querySelectorAll('.cdot');
     const prev  = document.getElementById('cases-prev');
     const next  = document.getElementById('cases-next');
+    const slides = track.querySelectorAll('.case-slide');
     const total = dots.length;
     let cur = 0;
 
@@ -4102,6 +4244,12 @@
       dots.forEach((d, i) => {
         d.classList.toggle('active', i === cur);
         d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+      });
+      slides.forEach((slide, i) => {
+        const active = i === cur;
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        if (active) slide.removeAttribute('inert');
+        else slide.setAttribute('inert', '');
       });
       track.addEventListener('transitionend', () => { track.style.willChange = 'auto'; }, { once: true });
     }
@@ -4137,6 +4285,7 @@
       const diff = tx0 - e.changedTouches[0].clientX;
       if (Math.abs(diff) > 44) { clearInterval(timer); go(cur + (diff > 0 ? 1 : -1)); }
     }, { passive: true });
+    go(0);
   })();
 
   /* ── Reviews slider ─────────────────────── */
@@ -4146,6 +4295,7 @@
     const prev    = document.getElementById('rev-prev');
     const next    = document.getElementById('rev-next');
     const counter = document.getElementById('rev-cur');
+    const slides  = track.querySelectorAll('.rev-slide');
     const total   = dots.length;
     let cur = 0;
 
@@ -4167,6 +4317,12 @@
       dots.forEach((d, i) => {
         d.classList.toggle('active', i === cur);
         d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+      });
+      slides.forEach((slide, i) => {
+        const active = i === cur;
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        if (active) slide.removeAttribute('inert');
+        else slide.setAttribute('inert', '');
       });
       counter.textContent = cur + 1;
       track.addEventListener('transitionend', () => { track.style.willChange = 'auto'; }, { once: true });
@@ -4203,6 +4359,7 @@
       const diff = tx0 - e.changedTouches[0].clientX;
       if (Math.abs(diff) > 44) go(cur + (diff > 0 ? 1 : -1));
     }, { passive: true });
+    go(0);
   })();
 
   /* ── Before/After comparison slider ─────── */
@@ -4265,6 +4422,7 @@
       const expanded = btn.getAttribute('aria-expanded') === 'true';
       const wrap = document.getElementById(btn.getAttribute('aria-controls'));
       btn.setAttribute('aria-expanded', String(!expanded));
+      wrap.setAttribute('aria-hidden', String(expanded));
       wrap.style.maxHeight = expanded ? '0' : wrap.scrollHeight + 'px';
     });
   });
@@ -4373,7 +4531,7 @@
 </script>
 
 <!-- ── Catalog modal ──────────────────────── -->
-<div class="catalog-modal" id="catalog-modal" role="dialog" aria-modal="true" aria-label="Full styles catalog" hidden>
+<div class="catalog-modal" id="catalog-modal" role="dialog" aria-modal="true" aria-label="Full styles catalog" hidden inert>
   <div class="catalog-head">
     <div class="catalog-head-left">
       <span class="catalog-title">Racing Liveries</span>
@@ -4382,8 +4540,8 @@
     <div class="catalog-filters" id="catalog-filters" role="tablist" aria-label="Filter by size">
       <button class="catalog-filter active" data-filter="all" role="tab" aria-selected="true">All <span class="catalog-filter__count">39</span></button>
       <button class="catalog-filter" data-filter="S" role="tab" aria-selected="false">S <span class="catalog-filter__count">5</span></button>
-      <button class="catalog-filter" data-filter="M" role="tab" aria-selected="false">M <span class="catalog-filter__count">22</span></button>
-      <button class="catalog-filter" data-filter="L" role="tab" aria-selected="false">L <span class="catalog-filter__count">12</span></button>
+      <button class="catalog-filter" data-filter="M" role="tab" aria-selected="false">M <span class="catalog-filter__count">24</span></button>
+      <button class="catalog-filter" data-filter="L" role="tab" aria-selected="false">L <span class="catalog-filter__count">10</span></button>
     </div>
     <button class="catalog-close" id="catalog-close" aria-label="Close catalog">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/></svg>
@@ -4398,7 +4556,7 @@
       Get a recommendation
     </button>
   </div>
-  <div class="lead-panel" id="lead-panel">
+  <div class="lead-panel" id="lead-panel" inert>
     <div class="lead-panel__inner">
       <div class="lead-panel__head">
         <div class="lead-panel__preview">
