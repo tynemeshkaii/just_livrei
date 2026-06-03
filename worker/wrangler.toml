@@ -1,0 +1,9 @@
+name = "just-graphics-leads"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+[vars]
+PIXEL_ID = "1759815045191457"
+BITRIX_URL = "https://crm.just-graphics.ae/rest/35/3tfiz65knmzt1tk5/crm.lead.add.json"
+
+# Store sensitive tokens as secrets via: wrangler secret put META_CAPI_TOKEN

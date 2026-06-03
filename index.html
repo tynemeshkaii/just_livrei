@@ -6,14 +6,32 @@
   <title>Just Graphics — Premium Car Decal Studio in Dubai</title>
   <meta name="description" content="Custom &amp; ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done. Get a free consultation today.">
   <meta name="theme-color" content="#0A0A09">
-  <link rel="canonical" href="https://justgraphics.ae/">
+  <link rel="canonical" href="https://just-graphics.art/">
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1759815045191457');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1759815045191457&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://justgraphics.ae/">
+  <meta property="og:url" content="https://just-graphics.art/">
   <meta property="og:title" content="Just Graphics — Premium Car Decal Studio in Dubai">
   <meta property="og:description" content="Custom &amp; ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done.">
-  <meta property="og:image" content="https://justgraphics.ae/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+  <meta property="og:image" content="https://just-graphics.art/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
   <meta property="og:image:alt" content="Ferrari with a premium gold stripe by Just Graphics in Dubai">
   <meta property="og:locale" content="en_AE">
 
@@ -21,17 +39,17 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Just Graphics — Premium Car Decal Studio in Dubai">
   <meta name="twitter:description" content="Custom &amp; ready-made car decals — designed, printed and installed in Dubai. 17 years of experience. 300+ cars done.">
-  <meta name="twitter:image" content="https://justgraphics.ae/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
+  <meta name="twitter:image" content="https://just-graphics.art/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "AutomotiveBusiness"],
-    "@id": "https://justgraphics.ae/#business",
+    "@id": "https://just-graphics.art/#business",
     "name": "Just Graphics",
-    "url": "https://justgraphics.ae/",
-    "image": "https://justgraphics.ae/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp",
-    "logo": "https://justgraphics.ae/logo.webp",
+    "url": "https://just-graphics.art/",
+    "image": "https://just-graphics.art/Ferrari%20%D0%BF%D0%BE%D1%81%D0%BB%D0%B5.webp",
+    "logo": "https://just-graphics.art/logo.webp",
     "description": "Premium car decal design, print and installation studio in Dubai.",
     "telephone": "+971505335004",
     "priceRange": "AED 290+",
@@ -4708,8 +4726,6 @@
            }
          }
       */
-      var BITRIX_WEBHOOK_URL = ''; // TODO: paste your Bitrix24 webhook URL here
-
       function onSuccess() {
         lSubmit.disabled = false;
         lSubmit.classList.remove('loading');
@@ -4717,30 +4733,18 @@
         document.querySelector('.lead-privacy').style.display = 'none';
         lSuccess.classList.add('is-visible');
         form.reset();
+        if (typeof fbq === 'function') fbq('track', 'Lead');
       }
 
-      if (BITRIX_WEBHOOK_URL) {
-        fetch(BITRIX_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fields: {
-              TITLE: 'Livery enquiry — ' + payload.car,
-              NAME: payload.name,
-              PHONE: [{ VALUE: payload.phone, VALUE_TYPE: 'WORK' }],
-              COMMENTS: 'Car: ' + payload.car + '\\nLivery: ' + (payload.livery !== 'Not specified' ? 'Racing Livery #' + payload.livery : 'Help me choose'),
-              SOURCE_ID: 'WEB'
-            }
-          })
-        }).then(onSuccess).catch(function() {
-          lSubmit.disabled = false;
-          lSubmit.classList.remove('loading');
-          alert('Something went wrong. Please try again or call us at +971 50 533 5004.');
-        });
-      } else {
-        console.log('[Lead form stub] Payload:', JSON.stringify(payload, null, 2));
-        setTimeout(onSuccess, 800);
-      }
+      fetch('https://leads.just-graphics.art/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(onSuccess).catch(function() {
+        lSubmit.disabled = false;
+        lSubmit.classList.remove('loading');
+        alert('Something went wrong. Please try again or call us at +971 50 533 5004.');
+      });
     });
   })();
 
@@ -4974,16 +4978,25 @@
         source: 'page_lead_form'
       };
 
-      console.log('[Page lead form] Payload:', JSON.stringify(payload, null, 2));
-
-      setTimeout(function () {
+      function onPageSuccess() {
         submit.disabled = false;
         submit.classList.remove('loading');
         form.style.display = 'none';
         form.closest('.cta-form__card').querySelector('.cta-form__privacy').style.display = 'none';
         success.classList.add('is-visible');
         form.reset();
-      }, 800);
+        if (typeof fbq === 'function') fbq('track', 'Lead');
+      }
+
+      fetch('https://leads.just-graphics.art/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(onPageSuccess).catch(function() {
+        submit.disabled = false;
+        submit.classList.remove('loading');
+        alert('Something went wrong. Please try again or call us at +971 50 533 5004.');
+      });
     });
   })();
 
