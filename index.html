@@ -4348,6 +4348,13 @@
   /* ── Everything else deferred until browser is idle ── */
   const initApp = () => {
 
+  /* ── UTM params ── */
+  var utmParams = {};
+  ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k) {
+    var v = new URLSearchParams(window.location.search).get(k);
+    if (v) utmParams[k] = v;
+  });
+
   /* ── Number counters ── */
   (function() {
     const els = document.querySelectorAll('[data-count]');
@@ -4708,7 +4715,8 @@
         name: name.value.trim(),
         phone: phone.value.trim(),
         car: car.value.trim(),
-        livery: lLivery.value || 'Not specified'
+        livery: lLivery.value || 'Not specified',
+        utm: utmParams
       };
 
       /* ── Bitrix CRM webhook placeholder ──
@@ -4975,7 +4983,8 @@
         name: name.value.trim(),
         phone: phone.value.trim(),
         car: car.value.trim() || 'Not specified',
-        source: 'page_lead_form'
+        source: 'page_lead_form',
+        utm: utmParams
       };
 
       function onPageSuccess() {

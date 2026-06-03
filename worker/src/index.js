@@ -25,7 +25,7 @@ export default {
         return Response.json({ ok: true, capi: 'sent' }, { headers: CORS_HEADERS });
       }
 
-      const { name, phone, car, livery, source } = data;
+      const { name, phone, car, livery, source, utm } = data;
 
       if (!name || !phone) {
         return Response.json({ ok: false, error: 'Name and phone required' }, { status: 400, headers: CORS_HEADERS });
@@ -44,7 +44,7 @@ export default {
       ].filter(Boolean).join('\n');
 
       const [bitrixResult, capiResult] = await Promise.allSettled([
-        sendToBitrix(env, { title, name, phone, comments }),
+        sendToBitrix(env, { title, name, phone, comments, utm }),
         sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source }),
       ]);
 
@@ -60,19 +60,27 @@ export default {
   }
 };
 
-async function sendToBitrix(env, { title, name, phone, comments }) {
+async function sendToBitrix(env, { title, name, phone, comments, utm }) {
+  const fields = {
+    TITLE: title,
+    NAME: name,
+    PHONE: [{ VALUE: phone, VALUE_TYPE: 'WORK' }],
+    COMMENTS: comments,
+    SOURCE_ID: 'WEB',
+  };
+
+  if (utm && Object.keys(utm).length) {
+    fields.UTM_SOURCE = utm.utm_source || '';
+    fields.UTM_MEDIUM = utm.utm_medium || '';
+    fields.UTM_CAMPAIGN = utm.utm_campaign || '';
+    fields.UTM_TERM = utm.utm_term || '';
+    fields.UTM_CONTENT = utm.utm_content || '';
+  }
+
   const resp = await fetch(env.BITRIX_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      fields: {
-        TITLE: title,
-        NAME: name,
-        PHONE: [{ VALUE: phone, VALUE_TYPE: 'WORK' }],
-        COMMENTS: comments,
-        SOURCE_ID: 'WEB',
-      }
-    }),
+    body: JSON.stringify({ fields }),
   });
   return resp.json();
 }
