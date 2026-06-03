@@ -4355,6 +4355,19 @@
     if (v) utmParams[k] = v;
   });
 
+  /* ── Meta cookies helper ── */
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function getMetaIds() {
+    return {
+      fbc: getCookie('_fbc') || '',
+      fbp: getCookie('_fbp') || '',
+      eventID: 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
+    };
+  }
+
   /* ── Number counters ── */
   (function() {
     const els = document.querySelectorAll('[data-count]');
@@ -4711,12 +4724,16 @@
       lSubmit.disabled = true;
       lSubmit.classList.add('loading');
 
+      var meta = getMetaIds();
       var payload = {
         name: name.value.trim(),
         phone: phone.value.trim(),
         car: car.value.trim(),
         livery: lLivery.value || 'Not specified',
-        utm: utmParams
+        utm: utmParams,
+        fbc: meta.fbc,
+        fbp: meta.fbp,
+        eventID: meta.eventID
       };
 
       /* ── Bitrix CRM webhook placeholder ──
@@ -4741,7 +4758,7 @@
         document.querySelector('.lead-privacy').style.display = 'none';
         lSuccess.classList.add('is-visible');
         form.reset();
-        if (typeof fbq === 'function') fbq('track', 'Lead');
+        if (typeof fbq === 'function') fbq('track', 'Lead', {}, { eventID: meta.eventID });
       }
 
       fetch('https://leads.just-graphics.art/submit', {
@@ -4979,12 +4996,16 @@
       submit.disabled = true;
       submit.classList.add('loading');
 
+      const meta2 = getMetaIds();
       const payload = {
         name: name.value.trim(),
         phone: phone.value.trim(),
         car: car.value.trim() || 'Not specified',
         source: 'page_lead_form',
-        utm: utmParams
+        utm: utmParams,
+        fbc: meta2.fbc,
+        fbp: meta2.fbp,
+        eventID: meta2.eventID
       };
 
       function onPageSuccess() {
@@ -4994,7 +5015,7 @@
         form.closest('.cta-form__card').querySelector('.cta-form__privacy').style.display = 'none';
         success.classList.add('is-visible');
         form.reset();
-        if (typeof fbq === 'function') fbq('track', 'Lead');
+        if (typeof fbq === 'function') fbq('track', 'Lead', {}, { eventID: meta2.eventID });
       }
 
       fetch('https://leads.just-graphics.art/submit', {
@@ -5045,11 +5066,12 @@
   document.addEventListener('click', function (e) {
     var waLink = e.target.closest('a[href*="whatsapp.com"]');
     if (waLink) {
-      if (typeof fbq === 'function') fbq('track', 'Contact', { content_name: 'contact_whatsapp' });
+      var waMeta = getMetaIds();
+      if (typeof fbq === 'function') fbq('track', 'Contact', { content_name: 'contact_whatsapp' }, { eventID: waMeta.eventID });
       fetch('https://leads.just-graphics.art/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event: 'WhatsAppClick', source: 'whatsapp_button' })
+        body: JSON.stringify({ event: 'WhatsAppClick', source: 'whatsapp_button', fbc: waMeta.fbc, fbp: waMeta.fbp, eventID: waMeta.eventID })
       }).catch(function () {});
       return;
     }

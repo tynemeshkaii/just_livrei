@@ -21,6 +21,9 @@ export default {
         const capiResult = await sendToMetaCAPI(env, request, {
           eventName: 'Contact',
           source: data.source || 'whatsapp_button',
+          fbc: data.fbc,
+          fbp: data.fbp,
+          eventID: data.eventID,
         });
         return Response.json({ ok: true, capi: 'sent' }, { headers: CORS_HEADERS });
       }
@@ -45,7 +48,7 @@ export default {
 
       const [bitrixResult, capiResult] = await Promise.allSettled([
         sendToBitrix(env, { title, name, phone, comments, utm }),
-        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source }),
+        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source, fbc: data.fbc, fbp: data.fbp, eventID: data.eventID }),
       ]);
 
       return Response.json({
@@ -85,7 +88,7 @@ async function sendToBitrix(env, { title, name, phone, comments, utm }) {
   return resp.json();
 }
 
-async function sendToMetaCAPI(env, request, { eventName, name, phone, source }) {
+async function sendToMetaCAPI(env, request, { eventName, name, phone, source, fbc, fbp, eventID }) {
   const userData = {
     client_ip_address: request.headers.get('CF-Connecting-IP'),
     client_user_agent: request.headers.get('User-Agent'),
@@ -93,6 +96,8 @@ async function sendToMetaCAPI(env, request, { eventName, name, phone, source }) 
 
   if (phone) userData.ph = [await sha256(normalizePhone(phone))];
   if (name) userData.fn = [await sha256(name.trim().toLowerCase())];
+  if (fbc) userData.fbc = fbc;
+  if (fbp) userData.fbp = fbp;
 
   const eventData = {
     event_name: eventName || 'Lead',
@@ -104,6 +109,8 @@ async function sendToMetaCAPI(env, request, { eventName, name, phone, source }) 
       lead_source: source || 'website',
     },
   };
+
+  if (eventID) eventData.event_id = eventID;
 
   const resp = await fetch(
     `https://graph.facebook.com/v21.0/${env.PIXEL_ID}/events`,
