@@ -16,6 +16,15 @@ export default {
 
     try {
       const data = await request.json();
+
+      if (data.event === 'WhatsAppClick') {
+        const capiResult = await sendToMetaCAPI(env, request, {
+          eventName: 'Contact',
+          source: data.source || 'whatsapp_button',
+        });
+        return Response.json({ ok: true, capi: 'sent' }, { headers: CORS_HEADERS });
+      }
+
       const { name, phone, car, livery, source } = data;
 
       if (!name || !phone) {
@@ -36,7 +45,7 @@ export default {
 
       const [bitrixResult, capiResult] = await Promise.allSettled([
         sendToBitrix(env, { title, name, phone, comments }),
-        sendToMetaCAPI(env, request, { name, phone, source }),
+        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source }),
       ]);
 
       return Response.json({
@@ -68,23 +77,21 @@ async function sendToBitrix(env, { title, name, phone, comments }) {
   return resp.json();
 }
 
-async function sendToMetaCAPI(env, request, { name, phone, source }) {
-  const hashedPhone = await sha256(normalizePhone(phone));
-  const hashedName = await sha256(name.trim().toLowerCase());
+async function sendToMetaCAPI(env, request, { eventName, name, phone, source }) {
+  const userData = {
+    client_ip_address: request.headers.get('CF-Connecting-IP'),
+    client_user_agent: request.headers.get('User-Agent'),
+  };
+
+  if (phone) userData.ph = [await sha256(normalizePhone(phone))];
+  if (name) userData.fn = [await sha256(name.trim().toLowerCase())];
 
   const eventData = {
-    event_name: 'Lead',
+    event_name: eventName || 'Lead',
     event_time: Math.floor(Date.now() / 1000),
     action_source: 'website',
     event_source_url: request.headers.get('Referer') || 'https://just-graphics.art',
-    user_data: {
-      ph: [hashedPhone],
-      fn: [hashedName],
-      client_ip_address: request.headers.get('CF-Connecting-IP'),
-      client_user_agent: request.headers.get('User-Agent'),
-      fbc: null,
-      fbp: null,
-    },
+    user_data: userData,
     custom_data: {
       lead_source: source || 'website',
     },

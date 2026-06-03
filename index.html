@@ -5034,6 +5034,17 @@
 
   /* ── Data-event Pixel helper ───────── */
   document.addEventListener('click', function (e) {
+    var waLink = e.target.closest('a[href*="whatsapp.com"]');
+    if (waLink) {
+      if (typeof fbq === 'function') fbq('track', 'Contact', { content_name: 'contact_whatsapp' });
+      fetch('https://leads.just-graphics.art/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: 'WhatsAppClick', source: 'whatsapp_button' })
+      }).catch(function () {});
+      return;
+    }
+
     const el = e.target.closest('[data-event]');
     if (!el) return;
     const event = el.dataset.event;
