@@ -22,7 +22,10 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1759815045191457');
+  window.__extid=(function(){try{var k='jg_extid',v=localStorage.getItem(k);
+    if(!v){v=(Date.now().toString(16)+Math.random().toString(16).slice(2,10)+Math.random().toString(16).slice(2,10)).toLowerCase();localStorage.setItem(k,v);}
+    return v;}catch(e){return '';}})();
+  fbq('init', '1759815045191457', window.__extid ? { external_id: window.__extid } : {});
   fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
@@ -4432,6 +4435,7 @@
     return {
       fbc: getCookie('_fbc') || '',
       fbp: getCookie('_fbp') || '',
+      externalId: window.__extid || '',
       eventID: 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
     };
   }
@@ -4801,6 +4805,7 @@
         utm: utmParams,
         fbc: meta.fbc,
         fbp: meta.fbp,
+        externalId: meta.externalId,
         eventID: meta.eventID
       };
 
@@ -5073,6 +5078,7 @@
         utm: utmParams,
         fbc: meta2.fbc,
         fbp: meta2.fbp,
+        externalId: meta2.externalId,
         eventID: meta2.eventID
       };
 
@@ -5139,7 +5145,7 @@
       fetch('https://leads.just-graphics.art/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event: 'WhatsAppClick', source: 'whatsapp_button', fbc: waMeta.fbc, fbp: waMeta.fbp, eventID: waMeta.eventID })
+        body: JSON.stringify({ event: 'WhatsAppClick', source: 'whatsapp_button', fbc: waMeta.fbc, fbp: waMeta.fbp, externalId: waMeta.externalId, eventID: waMeta.eventID })
       }).catch(function () {});
       return;
     }
@@ -5245,6 +5251,7 @@
         utm: utmParams,
         fbc: meta.fbc,
         fbp: meta.fbp,
+        externalId: meta.externalId,
         eventID: meta.eventID
       };
 

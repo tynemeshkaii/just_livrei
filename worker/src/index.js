@@ -23,6 +23,7 @@ export default {
           source: data.source || 'whatsapp_button',
           fbc: data.fbc,
           fbp: data.fbp,
+          externalId: data.externalId,
           eventID: data.eventID,
         });
         return Response.json({ ok: true, capi: 'sent' }, { headers: CORS_HEADERS });
@@ -48,7 +49,7 @@ export default {
 
       const [bitrixResult, capiResult] = await Promise.allSettled([
         sendToBitrix(env, { title, name, phone, comments, utm }),
-        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source, fbc: data.fbc, fbp: data.fbp, eventID: data.eventID }),
+        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source, fbc: data.fbc, fbp: data.fbp, externalId: data.externalId, eventID: data.eventID }),
       ]);
 
       return Response.json({
@@ -88,7 +89,7 @@ async function sendToBitrix(env, { title, name, phone, comments, utm }) {
   return resp.json();
 }
 
-async function sendToMetaCAPI(env, request, { eventName, name, phone, source, fbc, fbp, eventID }) {
+async function sendToMetaCAPI(env, request, { eventName, name, phone, source, fbc, fbp, externalId, eventID }) {
   const userData = {
     client_ip_address: request.headers.get('CF-Connecting-IP'),
     client_user_agent: request.headers.get('User-Agent'),
@@ -98,6 +99,7 @@ async function sendToMetaCAPI(env, request, { eventName, name, phone, source, fb
   if (name) userData.fn = [await sha256(name.trim().toLowerCase())];
   if (fbc) userData.fbc = fbc;
   if (fbp) userData.fbp = fbp;
+  if (externalId) userData.external_id = [await sha256(externalId)];
 
   const eventData = {
     event_name: eventName || 'Lead',
