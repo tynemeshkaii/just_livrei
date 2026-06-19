@@ -514,7 +514,7 @@
   /* ── Image lightbox (shared) — fullscreen viewer with zoom / pan / swipe ── */
   var openLightbox = (function () {
     var items = [], idx = 0, scale = 1, tx = 0, ty = 0;
-    var lastFocus = null, box, imgEl, counterEl, prevEl, nextEl;
+    var lastFocus = null, box, imgEl, counterEl, prevEl, nextEl, barEl, titleEl, priceEl, orderEl;
     var MIN = 1, MAX = 4;
 
     function build() {
@@ -528,17 +528,34 @@
         '<button type="button" class="lightbox__btn lightbox__nav lightbox__prev" aria-label="Previous">&#8249;</button>' +
         '<button type="button" class="lightbox__btn lightbox__nav lightbox__next" aria-label="Next">&#8250;</button>' +
         '<div class="lightbox__stage"><img class="lightbox__img" alt=""></div>' +
-        '<div class="lightbox__counter" aria-hidden="true"></div>';
+        '<div class="lightbox__counter" aria-hidden="true"></div>' +
+        '<div class="lightbox__bar">' +
+          '<div class="lightbox__meta">' +
+            '<div class="lightbox__title"></div>' +
+            '<div class="lightbox__price"></div>' +
+          '</div>' +
+          '<button type="button" class="btn btn-gold lightbox__order">Order this style</button>' +
+        '</div>';
       document.body.appendChild(box);
       imgEl = box.querySelector('.lightbox__img');
       counterEl = box.querySelector('.lightbox__counter');
       prevEl = box.querySelector('.lightbox__prev');
       nextEl = box.querySelector('.lightbox__next');
+      barEl = box.querySelector('.lightbox__bar');
+      titleEl = box.querySelector('.lightbox__title');
+      priceEl = box.querySelector('.lightbox__price');
+      orderEl = box.querySelector('.lightbox__order');
       var stage = box.querySelector('.lightbox__stage');
 
       box.querySelector('.lightbox__close').addEventListener('click', close);
       prevEl.addEventListener('click', function (e) { e.stopPropagation(); go(-1); });
       nextEl.addEventListener('click', function (e) { e.stopPropagation(); go(1); });
+      orderEl.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var it = items[idx];
+        close();
+        if (it && typeof it.onOrder === 'function') it.onOrder();
+      });
       box.addEventListener('click', function (e) { if (e.target === box || e.target === stage) close(); });
 
       /* desktop: wheel zoom + double-click toggle + drag-pan */
@@ -602,12 +619,21 @@
     function show(i) {
       idx = (i + items.length) % items.length;
       scale = 1; tx = ty = 0;
-      imgEl.src = items[idx].src;
-      imgEl.alt = items[idx].alt || '';
+      var it = items[idx];
+      imgEl.src = it.src;
+      imgEl.alt = it.alt || '';
       counterEl.textContent = (idx + 1) + ' / ' + items.length;
       var multi = items.length > 1;
       prevEl.hidden = nextEl.hidden = !multi;
       counterEl.hidden = !multi;
+      var hasInfo = !!(it.title || it.priceHTML);
+      if (hasInfo) {
+        titleEl.textContent = it.title || '';
+        priceEl.innerHTML = it.priceHTML || '';
+        orderEl.textContent = it.orderLabel || 'Order this style';
+        orderEl.style.display = (typeof it.onOrder === 'function') ? '' : 'none';
+      }
+      barEl.hidden = !hasInfo;
       apply();
     }
     function go(d) { show(idx + d); }

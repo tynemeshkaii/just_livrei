@@ -1578,16 +1578,29 @@ window.JG_pageInit = function(ctx){
       openLead(btn.dataset.id);
     });
 
-    /* Tap photo → fullscreen lightbox (zoom/pan/swipe) */
+    /* Tap photo → fullscreen lightbox (zoom/pan/swipe) with product info + Order */
     grid.addEventListener('click', function(e) {
       var photo = e.target.closest('.catalog-photo');
       if (!photo || !openLightbox) return;
-      var imgs = grid.querySelectorAll('.catalog-card:not(.card-hidden) .catalog-photo img');
-      var clicked = photo.querySelector('img');
+      var clickedCard = photo.closest('.catalog-card');
+      var cards = grid.querySelectorAll('.catalog-card:not(.card-hidden)');
       var list = [], start = 0;
-      imgs.forEach(function(img, i) {
-        if (img === clicked) start = i;
-        list.push({ src: img.currentSrc || img.getAttribute('src') || img.getAttribute('data-src'), alt: img.alt });
+      cards.forEach(function(card, i) {
+        if (card === clickedCard) start = i;
+        var img = card.querySelector('.catalog-photo img');
+        var nameEl = card.querySelector('.catalog-name');
+        var priceRow = card.querySelector('.catalog-price-row');
+        var sub = card.querySelector('.catalog-install') || card.querySelector('.catalog-price-label');
+        var orderBtn = card.querySelector('.catalog-order-btn');
+        var oid = orderBtn ? orderBtn.dataset.id : null;
+        list.push({
+          src: img.currentSrc || img.getAttribute('src') || img.getAttribute('data-src'),
+          alt: img.alt,
+          title: nameEl ? nameEl.textContent : '',
+          priceHTML: (priceRow ? priceRow.outerHTML : '') + (sub ? sub.outerHTML : ''),
+          orderLabel: orderBtn ? orderBtn.textContent.trim() : '',
+          onOrder: oid ? function() { openLead(oid); } : null
+        });
       });
       openLightbox(list, start);
     });
