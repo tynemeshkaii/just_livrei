@@ -1287,6 +1287,128 @@
       transform: scale(1.04);
     }
 
+    /* Zoom affordance on catalog photos */
+    .catalog-photo { cursor: zoom-in; }
+    .catalog-photo::before {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      z-index: 2;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.55) no-repeat center / 15px 15px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cline x1='15.5' y1='15.5' x2='21' y2='21'/%3E%3Cline x1='10.5' y1='7.5' x2='10.5' y2='13.5'/%3E%3Cline x1='7.5' y1='10.5' x2='13.5' y2='10.5'/%3E%3C/svg%3E");
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity var(--t), transform var(--t);
+      pointer-events: none;
+    }
+    .catalog-card:hover .catalog-photo::before { opacity: 1; transform: translateY(0); }
+    /* Touch devices have no hover — keep the hint visible */
+    @media (hover: none) {
+      .catalog-photo::before { opacity: 0.85; transform: none; }
+    }
+
+    /* ── Lightbox (shared fullscreen image viewer) ── */
+    body.lightbox-open { overflow: hidden; }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5,5,5,0.92);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+    .lightbox.is-open { opacity: 1; visibility: visible; }
+    .lightbox__stage {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      touch-action: none;
+    }
+    .lightbox__img {
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      cursor: zoom-in;
+      transform-origin: center center;
+      transition: transform 0.18s ease-out;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .lightbox.is-zoomed .lightbox__img { transition: none; }
+    .lightbox__btn {
+      position: absolute;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      cursor: pointer;
+      border-radius: 50%;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background var(--t), transform var(--t);
+    }
+    .lightbox__btn:hover { background: rgba(255,255,255,0.20); }
+    .lightbox__close {
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      font-size: 26px;
+      line-height: 1;
+    }
+    .lightbox__nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      font-size: 30px;
+      line-height: 1;
+    }
+    .lightbox__nav:hover { transform: translateY(-50%) scale(1.08); }
+    .lightbox__prev { left: 16px; }
+    .lightbox__next { right: 16px; }
+    .lightbox__counter {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      padding: 6px 14px;
+      border-radius: 50px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.9);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    @media (max-width: 600px) {
+      .lightbox__nav { width: 40px; height: 40px; font-size: 24px; }
+      .lightbox__prev { left: 8px; }
+      .lightbox__next { right: 8px; }
+      .lightbox__close { top: 10px; right: 10px; }
+    }
+
     /* Size badge on photo */
     .catalog-size {
       position: absolute;

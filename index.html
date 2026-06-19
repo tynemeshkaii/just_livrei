@@ -1258,7 +1258,7 @@
 <script>
 /* Page-specific modules: catalog modal + standalone gallery lead form. */
 window.JG_pageInit = function(ctx){
-  var utmParams = ctx.utmParams, getMetaIds = ctx.getMetaIds, fmt = ctx.fmt;
+  var utmParams = ctx.utmParams, getMetaIds = ctx.getMetaIds, fmt = ctx.fmt, openLightbox = ctx.openLightbox;
 
   /* ── Catalog modal ───────────────────────── */
   (function () {
@@ -1517,6 +1517,20 @@ window.JG_pageInit = function(ctx){
       if (!btn) return;
       e.preventDefault();
       openLead(btn.dataset.livery, btn.dataset.price);
+    });
+
+    /* Tap photo → fullscreen lightbox (zoom/pan/swipe) */
+    grid.addEventListener('click', function(e) {
+      var photo = e.target.closest('.catalog-photo');
+      if (!photo || !openLightbox) return;
+      var imgs = grid.querySelectorAll('.catalog-card:not(.card-hidden) .catalog-photo img');
+      var clicked = photo.querySelector('img');
+      var list = [], start = 0;
+      imgs.forEach(function(img, i) {
+        if (img === clicked) start = i;
+        list.push({ src: img.currentSrc || img.getAttribute('src') || img.getAttribute('data-src'), alt: img.alt });
+      });
+      openLightbox(list, start);
     });
 
     lGeneral.addEventListener('click', function() { openLead(null); });

@@ -511,9 +511,134 @@
   });
 
 
+  /* ── Image lightbox (shared) — fullscreen viewer with zoom / pan / swipe ── */
+  var openLightbox = (function () {
+    var items = [], idx = 0, scale = 1, tx = 0, ty = 0;
+    var lastFocus = null, box, imgEl, counterEl, prevEl, nextEl;
+    var MIN = 1, MAX = 4;
+
+    function build() {
+      box = document.createElement('div');
+      box.className = 'lightbox';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-modal', 'true');
+      box.setAttribute('aria-label', 'Image viewer');
+      box.innerHTML =
+        '<button type="button" class="lightbox__btn lightbox__close" aria-label="Close">&times;</button>' +
+        '<button type="button" class="lightbox__btn lightbox__nav lightbox__prev" aria-label="Previous">&#8249;</button>' +
+        '<button type="button" class="lightbox__btn lightbox__nav lightbox__next" aria-label="Next">&#8250;</button>' +
+        '<div class="lightbox__stage"><img class="lightbox__img" alt=""></div>' +
+        '<div class="lightbox__counter" aria-hidden="true"></div>';
+      document.body.appendChild(box);
+      imgEl = box.querySelector('.lightbox__img');
+      counterEl = box.querySelector('.lightbox__counter');
+      prevEl = box.querySelector('.lightbox__prev');
+      nextEl = box.querySelector('.lightbox__next');
+      var stage = box.querySelector('.lightbox__stage');
+
+      box.querySelector('.lightbox__close').addEventListener('click', close);
+      prevEl.addEventListener('click', function (e) { e.stopPropagation(); go(-1); });
+      nextEl.addEventListener('click', function (e) { e.stopPropagation(); go(1); });
+      box.addEventListener('click', function (e) { if (e.target === box || e.target === stage) close(); });
+
+      /* desktop: wheel zoom + double-click toggle + drag-pan */
+      stage.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        zoomBy(e.deltaY < 0 ? 1.2 : 1 / 1.2);
+      }, { passive: false });
+      imgEl.addEventListener('dblclick', function (e) {
+        e.preventDefault();
+        if (scale > 1) { scale = 1; tx = ty = 0; } else { scale = 2.5; }
+        apply();
+      });
+      var dragging = false, sx = 0, sy = 0;
+      imgEl.addEventListener('mousedown', function (e) {
+        if (scale <= 1) return;
+        dragging = true; sx = e.clientX - tx; sy = e.clientY - ty; e.preventDefault();
+      });
+      window.addEventListener('mousemove', function (e) {
+        if (!dragging) return; tx = e.clientX - sx; ty = e.clientY - sy; apply();
+      });
+      window.addEventListener('mouseup', function () { dragging = false; });
+
+      /* touch: 1-finger swipe (when not zoomed) / pan (when zoomed); 2-finger pinch */
+      var t0x = 0, t0y = 0, panx = 0, pany = 0, pinchDist = 0, pinchScale = 1, swiping = false;
+      imgEl.addEventListener('touchstart', function (e) {
+        if (e.touches.length === 2) {
+          pinchDist = dist(e.touches); pinchScale = scale;
+        } else if (e.touches.length === 1) {
+          t0x = e.touches[0].clientX; t0y = e.touches[0].clientY;
+          panx = tx; pany = ty; swiping = scale <= 1;
+        }
+      }, { passive: true });
+      imgEl.addEventListener('touchmove', function (e) {
+        if (e.touches.length === 2) {
+          e.preventDefault();
+          scale = clamp(pinchScale * (dist(e.touches) / pinchDist), MIN, MAX);
+          apply();
+        } else if (e.touches.length === 1 && scale > 1) {
+          e.preventDefault();
+          tx = panx + (e.touches[0].clientX - t0x);
+          ty = pany + (e.touches[0].clientY - t0y);
+          apply();
+        }
+      }, { passive: false });
+      imgEl.addEventListener('touchend', function (e) {
+        if (swiping && e.changedTouches.length) {
+          var dx = e.changedTouches[0].clientX - t0x;
+          if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+        }
+        swiping = false;
+      });
+    }
+    function dist(t) { var a = t[0], b = t[1]; return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY); }
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function zoomBy(f) { scale = clamp(scale * f, MIN, MAX); if (scale === 1) tx = ty = 0; apply(); }
+    function apply() {
+      imgEl.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+      imgEl.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
+      box.classList.toggle('is-zoomed', scale > 1);
+    }
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      scale = 1; tx = ty = 0;
+      imgEl.src = items[idx].src;
+      imgEl.alt = items[idx].alt || '';
+      counterEl.textContent = (idx + 1) + ' / ' + items.length;
+      var multi = items.length > 1;
+      prevEl.hidden = nextEl.hidden = !multi;
+      counterEl.hidden = !multi;
+      apply();
+    }
+    function go(d) { show(idx + d); }
+    function onKey(e) {
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === '+' || e.key === '=') zoomBy(1.25);
+      else if (e.key === '-') zoomBy(1 / 1.25);
+    }
+    function close() {
+      box.classList.remove('is-open');
+      document.body.classList.remove('lightbox-open');
+      document.removeEventListener('keydown', onKey);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    return function (list, startIdx) {
+      if (!list || !list.length) return;
+      if (!box) build();
+      items = list; lastFocus = document.activeElement;
+      document.body.classList.add('lightbox-open');
+      box.classList.add('is-open');
+      document.addEventListener('keydown', onKey);
+      show(startIdx || 0);
+      box.querySelector('.lightbox__close').focus();
+    };
+  })();
+
   /* ── Page-specific modules injected here (catalog, standalone gallery lead) ── */
   if (typeof window.JG_pageInit === 'function') {
-    window.JG_pageInit({ utmParams: utmParams, getMetaIds: getMetaIds, fmt: fmt });
+    window.JG_pageInit({ utmParams: utmParams, getMetaIds: getMetaIds, fmt: fmt, openLightbox: openLightbox });
   }
   }; /* end initApp */
 
