@@ -1,0 +1,93 @@
+/* ─── Dealers page overrides (loaded AFTER site.css) ─── */
+
+/* Gallery card: stacked layout + 2-line clamped name */
+@media (max-width: 600px) {
+  .g-card-overlay {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .g-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.75), 0 1px 3px rgba(0,0,0,0.6);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Catalog filters: horizontal scroll, hidden scrollbar */
+.catalog-filters {
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.catalog-filters::-webkit-scrollbar { display: none; }
+.catalog-filter { flex-shrink: 0; }
+
+/* Brand chip on catalog photo */
+.catalog-brand {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 3px 9px;
+  border-radius: 50px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Catalog name: 2-line clamp + reserved height */
+.catalog-name {
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5em;
+}
+
+/* Install label under price */
+.catalog-install {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.catalog-install::before {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: 0.7;
+}
+
+/* Porsche platform sub-filter row */
+.catalog-subfilter {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,9,0.6);
+}
+.catalog-subfilter::-webkit-scrollbar { display: none; }
+.catalog-subfilter[hidden] { display: none; }
+@media (min-width: 768px) { .catalog-subfilter { padding: 10px 28px; } }

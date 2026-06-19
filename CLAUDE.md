@@ -4,7 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Landing page for **Just Graphics** — a premium car decal studio in Dubai (live domain: `just-graphics.art`). The marketing site is a single file, `index.html` (~5400 lines, no build tools, no frameworks, no package.json). A separate Cloudflare Worker in `worker/` handles lead submission + Meta CAPI. `privacy.html` is a standalone styled privacy policy page.
+Landing page for **Just Graphics** — a premium car decal studio in Dubai (live domain: `just-graphics.art`). No build tools, no frameworks, no package.json. Two marketing pages share extracted CSS/JS assets:
+
+- `index.html` (~1850 lines) — main landing page
+- `dealers/index.html` (~1930 lines) — OEM/dealer-style landing at `/dealers`
+- `assets/site.css` (~3070 lines) — **shared** stylesheet, linked by both pages
+- `assets/dealers.css` — dealer-only style overrides (loaded after `site.css` on the dealers page)
+- `assets/site.js` (~525 lines) — **shared** script (immediate navbar/burger + deferred `initApp`), linked by both pages
+- `privacy.html` — standalone styled privacy policy page
+
+A separate Cloudflare Worker in `worker/` handles lead submission + Meta CAPI.
 
 ## Dev Server
 
@@ -24,15 +33,18 @@ make push m="message"  # custom commit message
 make status            # git status
 ```
 
-## Architecture — index.html
+## Architecture — page HTML + shared assets
 
-Everything (HTML, CSS, JS) is inline in `index.html`. Top-to-bottom:
+Each page (`index.html`, `dealers/index.html`) carries its own `<head>`, body HTML, and a small page-specific script; **CSS and the bulk of JS are external and shared**. Top-to-bottom per page:
 
-1. `<head>` — meta, **Meta Pixel** (id `1759815045191457`) bootstrap + `external_id` from `localStorage` (`jg_extid`), Open Graph / Twitter cards, JSON-LD (`<script type="application/ld+json">`), font preloads (Inter + Playfair Display), LCP image preload, DNS prefetch
-2. Single inline `<style>` (lines ~105–3176, ~3000 lines). Sections delimited by `/* ─── N. NAME ─── */` comments — Tokens, Reset, Container, Scroll reveal, Section, Buttons, then numbered: 1 NAV, 1b BURGER MENU, 2 HERO, 4 DETAILS CARDS, 5 WHY CHOOSE US, 6 GALLERY SLIDER, 7 CASES, 8 PROCESS, 9 FOOTER, plus Floating WhatsApp, Mid-page CTA, Standalone lead form, Sticky mobile CTA bar, FAQ, 10 REVIEWS
-3. SVG sprite — `<svg style="display:none">` with `<symbol>` defs: `#i-wa`, `#i-ig`, `#i-fb`, `#i-left`, `#i-right`, `#i-compare`
-4. HTML sections in DOM order: Nav (`.nav`) + mobile menu panel (`.menu-panel`) → Hero → Cases → Gallery → Reviews → Details → Why Us → CTA lead form (`#get-quote`) → FAQ → Process → Footer → catalog modal + floating WhatsApp + sticky mobile CTA
-5. Two `<script>` tags: head Pixel bootstrap (step 1), and the main app script at the bottom
+1. `<head>` — meta, **Meta Pixel** (id `1759815045191457`) bootstrap + `external_id` from `localStorage` (`jg_extid`) **inline** (must run early for PageView), Open Graph / Twitter cards + JSON-LD (per-page, differ between the two pages), font preloads (Inter + Playfair Display), LCP image preload, DNS prefetch, then `<link rel="stylesheet" href="/assets/site.css">` (dealers also links `/assets/dealers.css`)
+2. SVG sprite — `<svg style="display:none">` with `<symbol>` defs: `#i-wa`, `#i-ig`, `#i-fb`, `#i-left`, `#i-right`, `#i-compare`
+3. HTML sections in DOM order: Nav (`.nav`) + mobile menu panel (`.menu-panel`) → Hero → Cases → Gallery → Reviews → Details → Why Us → CTA lead form (`#get-quote`) → FAQ → Process → Footer → catalog modal + floating WhatsApp + sticky mobile CTA
+4. Two `<script>` tags at the bottom: an **inline** `window.JG_pageInit = function(ctx){…}` block (the page-specific catalog modal + standalone gallery lead form — these differ between pages: index has racing liveries, dealers has brand/platform filters), followed by `<script src="/assets/site.js" defer>`.
+
+**Shared CSS** lives in `assets/site.css`. Sections delimited by `/* ─── N. NAME ─── */` comments — Tokens, Reset, Container, Scroll reveal, Section, Buttons, then numbered: 1 NAV, 1b BURGER MENU, 2 HERO, 4 DETAILS CARDS, 5 WHY CHOOSE US, 6 GALLERY SLIDER, 7 CASES, 8 PROCESS, 9 FOOTER, plus Floating WhatsApp, Mid-page CTA, Standalone lead form, Sticky mobile CTA bar, FAQ, 10 REVIEWS. Dealer-only tweaks (gallery card clamp, horizontal-scroll catalog filters, brand chip, install label, Porsche sub-filter) are appended in `assets/dealers.css` and win by cascade order.
+
+**Edit shared styles/scripts in `assets/`, not in the HTML.** A change there applies to both pages. Only catalog/lead-form logic and the head meta are per-page.
 
 ## Key CSS Conventions
 
@@ -45,21 +57,25 @@ Everything (HTML, CSS, JS) is inline in `index.html`. Top-to-bottom:
 
 ## JavaScript Modules
 
-Navbar scroll + scroll progress and the burger menu are bound **immediately**. Everything else lives in `initApp()`, run via `requestIdleCallback` (fallback `setTimeout(200ms)`). Modules (in order):
+**Shared logic lives in `assets/site.js`.** Navbar scroll + scroll progress and the burger menu are bound **immediately**; everything else lives in `initApp()`, run via `requestIdleCallback` (fallback `setTimeout(200ms)`). After running its own modules, `initApp` calls `window.JG_pageInit(ctx)` with `ctx = { utmParams, getMetaIds, fmt }` — this is the **dependency-injection hook** for the page-specific modules. Shared modules (in order):
 
 - **UTM params** — captured from URL, sent with leads
-- **Meta cookies helper** — reads `fbc` / `fbp` cookies for CAPI match quality
-- **Number counters** — animated stats
+- **Meta cookies helper** — reads `fbc` / `fbp` cookies for CAPI match quality (`getMetaIds`, injected into `ctx`)
+- **Number counters** — animated stats (uses `fmt`)
 - **Scroll reveal** — IntersectionObserver for `[data-animate]` and `.stagger`
 - **Gallery filter tabs + slider** — `#g-track` horizontal scroll; `#g-prev`/`#g-next` arrows call `scrollBy`, step = card width + 14px gap; per-view count is responsive (3/2/1)
-- **Catalog modal** — `#catalog-modal` full catalog with filters, focus trap; opened by `#g-viewall`; contains an inline lead form panel
 - **Cases slider** — `translateX` carousel, IntersectionObserver-gated auto-play (pauses off-screen), touch swipe
 - **Reviews slider** — carousel with expand/collapse review panel, keyboard nav, touch swipe
 - **Before/After compare** — mouse + touch drag sets `clip-path: inset(...)` on `.compare__after`; one-time hint nudge on viewport entry
 - **FAQ accordion** — `aria-expanded` + `max-height` transition on `.faq-a-wrap`
-- **Page lead form** + **Gallery standalone lead form** — POST to the Worker (see below)
+- **Page lead form** (`#page-lead-form`) — POSTs to the Worker (see below)
 - **Sticky mobile CTA bar**
 - **Data-event Pixel helper** — fires Meta events with `eventID` (for pixel/CAPI dedup) and `external_id`
+
+**Page-specific modules** live in each page's inline `window.JG_pageInit = function(ctx){…}` block (they alias `utmParams`/`getMetaIds`/`fmt` off `ctx`). These differ between the two pages and must NOT be moved into `site.js`:
+
+- **Catalog modal** — `#catalog-modal` full catalog with filters, focus trap; opened by `#g-viewall`; contains an inline lead form panel (`#lead-form`). index = racing liveries (`DATA` with size/number/price); dealers = brand/platform filters, brand chips, Porsche sub-filter, `DATA` with a brand field.
+- **Gallery standalone lead form** (`#lead-form-sa`) — POSTs to the Worker.
 
 ## Lead Submission — Cloudflare Worker (`worker/`)
 
@@ -73,9 +89,9 @@ Config in `worker/wrangler.toml` — `[vars]` `PIXEL_ID` + `BITRIX_URL`; `META_C
 
 ## Images
 
-All images are WebP only — PNG/JPG originals were deleted. Many files use spaces and Cyrillic in names (e.g. `Ferrari после.webp`) — **always quote paths** in shell commands. Image folders: root before/after pairs (`*до.webp` / `*после.webp`), `gallery/` (numbered `1.webp`…), `отзывы/` (review car photos).
+All images are WebP only — PNG/JPG originals were deleted. Filenames are ASCII slugs (previously had spaces + Cyrillic; renamed). Image locations: root before/after pairs (`ferrari-before.webp`/`ferrari-after.webp`, `ford-bronco-*`, `race-car-*`), `gallery/` (numbered `1.webp`… for index), `dealers-gallery/` (numbered, for the dealers catalog), `reviews/` (review car photos, e.g. `bmw-m4.webp`).
 
-LCP image (`Ferrari после.webp`) has `fetchpriority="high" loading="eager"`. All others use `loading="lazy" decoding="async"`.
+LCP image (`ferrari-after.webp`) has `fetchpriority="high" loading="eager"`. All others use `loading="lazy" decoding="async"`.
 
 ## Note on AGENTS.md
 
