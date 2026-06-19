@@ -29,21 +29,28 @@ export default {
         return Response.json({ ok: true, capi: 'sent' }, { headers: CORS_HEADERS });
       }
 
-      const { name, phone, car, livery, source, utm } = data;
+      const { name, phone, car, livery, source, utm, brand, product } = data;
 
       if (!name || !phone) {
         return Response.json({ ok: false, error: 'Name and phone required' }, { status: 400, headers: CORS_HEADERS });
       }
 
-      const title = livery && livery !== 'Not specified'
-        ? `Livery enquiry — ${car || 'No car'}`
-        : source === 'page_lead_form'
-          ? `Callback — ${car || 'No car specified'}`
-          : `Lead — ${car || 'No car'}`;
+      // Dealer-stickers page sends explicit brand + product; keep livery path for the live liveries site.
+      const isDealer = !!product;
+
+      const title = isDealer
+        ? `Dealer sticker — ${brand ? brand + ' · ' : ''}${car || 'No car'}`
+        : livery && livery !== 'Not specified'
+          ? `Livery enquiry — ${car || 'No car'}`
+          : source === 'page_lead_form'
+            ? `Callback — ${car || 'No car specified'}`
+            : `Lead — ${car || 'No car'}`;
 
       const comments = [
         `Car: ${car || 'Not specified'}`,
-        livery && livery !== 'Not specified' ? `Livery: Racing Livery #${livery}` : null,
+        isDealer ? `Brand: ${brand || 'Not specified'}` : null,
+        isDealer ? `Product: ${product}` : null,
+        (!isDealer && livery && livery !== 'Not specified') ? `Livery: Racing Livery #${livery}` : null,
         `Source: ${source || 'website'}`,
       ].filter(Boolean).join('\n');
 
