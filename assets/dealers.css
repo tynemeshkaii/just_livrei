@@ -135,13 +135,6 @@
   border-color: rgba(196,164,93,0.42);
   color: var(--gold-h);
 }
-.hero__cta-micro {
-  flex-basis: 100%;
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: rgba(247,243,232,0.55);
-  letter-spacing: 0.01em;
-}
 a.rev-eyebrow-stat {
   text-decoration: none;
   transition: color 0.2s ease;
