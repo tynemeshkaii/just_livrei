@@ -119,7 +119,7 @@
     const animate = (el) => {
       const target = parseFloat(el.dataset.count);
       const decimals = parseInt(el.dataset.decimals || '0', 10);
-      const dur = 1400;
+      const dur = 1100;
       const start = performance.now();
       const startVal = 0;
       const fmt = (v) => {
