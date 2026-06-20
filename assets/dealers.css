@@ -94,27 +94,38 @@
 
 /* ─── Dealer hero: launch offer, Google rating badge, CTA microcopy ─── */
 .hero__offer {
+  position: relative;
   display: block;
-  margin-bottom: 26px;
-  padding: 10px 16px;
+  margin: 0 0 30px;
+  padding-left: 18px;
+  max-width: 470px;
   font-size: clamp(13px, 1.5vw, 15px);
-  font-weight: 600;
-  line-height: 1.5;
-  color: rgba(247,243,232,0.9);
-  background: var(--gold-d);
-  border: 1px solid rgba(196,164,93,0.32);
-  border-radius: 12px;
-  max-width: 520px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgba(247,243,232,0.74);
   opacity: 0;
   animation: fadeUp 0.8s ease 0.42s forwards;
 }
+.hero__offer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--gold-grad);
+}
 .hero__offer em {
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   background: var(--gold-grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.hero__offer-note {
+  color: rgba(247,243,232,0.5);
 }
 .badge--rating {
   text-decoration: none;
